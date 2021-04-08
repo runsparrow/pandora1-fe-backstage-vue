@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import { APIHOSTNAME } from '@constants/API'
 
 export type LoginParamsType = {
   userName: string;
@@ -8,9 +9,13 @@ export type LoginParamsType = {
 };
 
 export async function fakeAccountLogin(params: LoginParamsType) {
-  return request('/api/login/account', {
+  let param = {
+    name: params.userName,
+    password: params.password
+  }
+  return request(`${APIHOSTNAME}/AVM/Auth/GetToken`, {
     method: 'POST',
-    data: params,
+    data: param,
   });
 }
 
