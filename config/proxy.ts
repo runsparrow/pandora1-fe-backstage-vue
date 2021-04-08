@@ -7,10 +7,10 @@
  */
 export default {
   dev: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/media/': {
+      target: 'http://106.15.88.18:8001',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { '^/media': '' },
     },
   },
   test: {

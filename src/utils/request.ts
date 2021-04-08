@@ -4,6 +4,7 @@
  */
 import { extend } from 'umi-request';
 import { notification } from 'antd';
+import { history } from 'umi'
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -32,10 +33,10 @@ const errorHandler = (error: { response: Response }): Response => {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
 
-    notification.error({
-      message: `请求错误 ${status}: ${url}`,
-      description: errorText,
-    });
+    // notification.error({
+    //   message: `请求错误 ${status}: ${url}`,
+    //   description: errorText,
+    // });
   } else if (!response) {
     notification.error({
       description: '您的网络发生异常，无法连接服务器',
@@ -45,12 +46,67 @@ const errorHandler = (error: { response: Response }): Response => {
   return response;
 };
 
+
 /**
  * 配置request请求时的默认参数
  */
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
+});
+
+// request拦截器, 改变url 或 options.
+request.interceptors.request.use(async (url, options) => {
+
+  let token = localStorage.getItem("token");
+  if (token) {
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': `Bearer ${token || null}`,
+    }
+    return (
+      {
+        url: url,
+        options: { ...options, headers: headers },
+      }
+    );
+  } else {
+
+
+    const headers = {
+      //'Content-Type': 'application/json; charset=utf-8',
+      'Accept': 'application/json',
+    };
+    return (
+      {
+        url: url,
+        options: { ...options, headers: headers },
+      }
+    );
+  }
+})
+
+// response拦截器, 处理response
+request.interceptors.response.use(async response => {
+  const data = await response.clone().json()
+
+  if (data.status == 401) {
+    localStorage.setItem("token", "")
+    history.replace("/user/login")
+  }
+  //  if(data.code === 0){
+  //    return  response;
+  //  }else{
+  //    notification.error({
+  //      description: data.message || '您的网络发生异常，无法连接服务器',
+  //      message: '网络异常',
+  //    });
+  //    return  response;
+  //  }
+
+  return response
+
 });
 
 export default request;

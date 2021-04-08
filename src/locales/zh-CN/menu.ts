@@ -49,4 +49,13 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.goods': '商品管理',
+  'menu.order': '订单管理',
+  'menu.dictionary': '字典管理',
+  'menu.article': '资讯管理',
+  'menu.material': '素材管理',
+  'menu.navigation': '菜单管理',
+  'menu.review': '审核管理',
+  'menu.serial': '流水管理',
+  'menu.status': '状态管理',
 };
