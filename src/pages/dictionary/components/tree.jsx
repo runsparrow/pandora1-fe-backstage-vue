@@ -7,38 +7,24 @@ const { Search } = Input
 const { TreeNode } = Tree
 
 const index = (props) => {
-  const { treeData, dispatch, getNavList } = props
-  const [form] = Form.useForm();
+  const { treeData, dispatch, selectNode, getNavList } = props
   const [isShow, setIsShow] = useState(false)
-  const [isEdit, setisEdit] = useState(false)
-  const [info, setInfo] = useState(null)
+  const [form] = Form.useForm();
+  const [info, setInfo] = useState({})
 
-
-  const onCheck = (checked, e) => {
-    getroleprojectid(checked)
-  }
-
-  const checkedKeyslist = () => {
-    return orgDetail.map(p => p.id)
+  const onSelect = (keys, item) => {
+    selectNode(item.node.row)
   }
 
   const addNode = (item) => {
     form.setFieldsValue(item)
     setInfo(item)
-    setisEdit(false)
-    setIsShow(true)
-  }
-
-  const editNode = (item) => {
-    form.setFieldsValue(item)
-    setInfo(item)
-    setisEdit(true)
     setIsShow(true)
   }
 
   const delNode = (item) => {
     dispatch({
-      type: "navTree/delNode",
+      type: "dictionary/delNode",
       payload: {
         id: item.key
       }
@@ -47,20 +33,15 @@ const index = (props) => {
     })
   }
 
-  const close = () => {
-    form.setFieldsValue({})
-    setIsShow(false)
-    setInfo({})
-  }
-
   const onFinish = () => {
     form.validateFields().then((values) => {
       dispatch({
-        type: isEdit ? "navTree/editNode" : "navTree/addNode",
-        payload: isEdit ? { ...info.row, name: values.title, key: values.title } : {
+        type: "dictionary/addNode",
+        payload: {
           pid: info.key,
-          name: values.title,
-          key: values.title,
+          name: values.name,
+          key: values.key,
+          value: values.value,
         }
       }).then(res => {
         if (res) {
@@ -71,23 +52,28 @@ const index = (props) => {
     })
   }
 
+  const close = () => {
+    form.setFieldsValue({})
+    setIsShow(false)
+    setInfo({})
+  }
+
   return (<div>
     <Tree
+      onSelect={onSelect}
       checkable={false}
       treeData={treeData}
       titleRender={res => {
         return <div>{res.title}
           <PlusOutlined style={{ margin: "0 10px" }} onClick={() => addNode(res)} />
-          <EditOutlined style={{ marginRight: "10px" }} onClick={() => editNode(res)} />
           {
             res.key != "1" ? <DeleteOutlined onClick={() => { delNode(res) }} /> : null
           }
         </div>
-      }}
-    />
+      }} />
     {
       isShow ? <Modal
-        title={isEdit ? "编辑菜单" : "新建菜单"}
+        title="新建字典"
         visible={true}
         footer={<div style={{ textAlign: 'right' }}>
           <Button onClick={close} style={{ marginRight: "20px" }}>取消</Button>
@@ -98,9 +84,23 @@ const index = (props) => {
           initialValues={info}
         >
           <Form.Item
-            label="菜单名称"
-            name="title"
-            rules={[{ required: true, message: '请输入菜单名称!' }]}
+            label="字段name"
+            name="name"
+            rules={[{ required: true, message: '请输入字段name!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="字段key"
+            name="key"
+            rules={[{ required: true, message: '请输入字段key!' }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="字段value"
+            name="value"
+            rules={[{ required: true, message: '请输入字段value!' }]}
           >
             <Input />
           </Form.Item>

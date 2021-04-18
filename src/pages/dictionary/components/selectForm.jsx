@@ -19,7 +19,7 @@ const index = ({ info, dispatch }) => {
   const onFinish = (item) => {
     console.log("onFinish", item)
     dispatch({
-      type: "statusTree/edit",
+      type: "dictionary/edit",
       payload: { ...info, ...item }
     })
   }

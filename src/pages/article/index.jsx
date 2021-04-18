@@ -3,127 +3,88 @@ import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider } from 'antd'
 import QueryForm from '@components/QueryForm'
+import ActionList from './actionList/actionList'
 import { connect } from 'dva'
 import { history } from 'umi'
-import ActionList from './actionList/actionList'
 const { Option } = Select
 
 const index = (props) => {
   const { dispatch } = props
-  const [scroll, setScroll] = useState({ x: "2400px" })
+  const [scroll, setScroll] = useState({ x: "1600" })
   const [data, setData] = useState({})
-  const [queryList, setQueryList] = useState([
-    { label: "字段筛选", value: "a", type: "searchinput", option: [{ label: "bbb", value: "qq" }, { label: "ccc", value: "dddd" }] },
-    { label: "客户来源", value: "b", type: "checkboxgroup", option: [{ label: "bbb", value: "qq" }, { label: "ccc", value: "dddd" }] },
-    { label: "创建时间", value: "d", type: "rangdatepicker", option: [] },
-    { label: "最后跟进时间", value: "f", type: "rangdatepicker", option: [] },
-    { label: "负责销售", value: "g", type: "searchselect", option: [{ label: "bbb", value: "qq" }, { label: "ccc", value: "dddd" }] },
-  ])
-  const [queryString, setQueryString] = useState({})
   const [column, setColumn] = useState([
     {
-      title: "客户ID",
-      dataIndex: "a",
+      title: "标题",
+      dataIndex: "title",
       width: 200,
     },
     {
-      title: "锁定客户",
-      dataIndex: "a",
+      title: "简介",
+      dataIndex: "summary",
+      search: false,
       width: 200
     },
     {
-      title: "客户来源",
-      dataIndex: "a",
+      title: "导航名称",
+      dataIndex: "navigationName",
       width: 200
     },
     {
-      title: "客户类型",
-      dataIndex: "a",
+      title: "标签",
+      dataIndex: "tags",
       width: 200
     },
     {
-      title: "客户名称",
-      dataIndex: "a",
+      title: "文章来源",
+      dataIndex: "source",
+      search: false,
+      search: false,
       width: 200
     },
     {
-      title: "需求",
-      dataIndex: "a",
+      title: "文章来源路径",
+      dataIndex: "sourceUrl",
+      search: false,
+      width: 350
+    },
+    {
+      title: "是否显示",
+      dataIndex: "isDisplay",
       width: 200
     },
     {
-      title: "所在地区",
-      dataIndex: "a",
+      title: "是否置顶",
+      dataIndex: "isTop",
+      search: false,
       width: 200
     },
     {
-      title: "所在行业",
-      dataIndex: "a",
+      title: "允许评论",
+      dataIndex: "isDiscuss",
+      width: 350
+    },
+    {
+      title: "发表人",
+      dataIndex: "publisher",
+      search: false,
       width: 200
     },
     {
-      title: "联系人",
-      dataIndex: "a",
+      title: "收藏量",
+      dataIndex: "collects",
+      search: false,
       width: 200
     },
     {
-      title: "联系电话",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "去年累计到款",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "今年累计到款",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "合同次数",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "成单总金额",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "资源对接人",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "负责销售",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "负责售后",
-      dataIndex: "a",
+      title: "转发量",
+      dataIndex: "forwards",
+      search: false,
       width: 200
     },
     {
       title: "创建时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "最后跟进时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "掉保时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "掉保时间",
-      dataIndex: "a",
+      dataIndex: "createDateTime",
+      search: false,
       width: 200
     },
     {
@@ -132,53 +93,46 @@ const index = (props) => {
       width: 500,
       fixed: "right",
       render: (item) => <div>
-        <a onClick={() => viewInfo(item)}>详情</a>
+        <a onClick={() => checkTop(item)}>置顶</a>
         <Divider type="vertical" />
         <a onClick={() => edit(item)}>编辑</a>
       </div>
     },
   ])
 
-  const onQueryForm = (item) => {
-    setQueryString({ ...queryString, ...item })
+  const edit = (item) => {
+    console.log("edit")
+  }
+
+  const checkTop = (item) => {
+    console.log("checkTop")
   }
 
   const onFormRest = () => {
     setQueryString({})
   }
 
-  const getList = (item = { pageNum: 0, pageSize: 20 }) => {
-    return {
-      data: [{ key: 1, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 2, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 3, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 4, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 5, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 6, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 7, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 8, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 9, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 10, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 11, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      ],
-      total: 1000,
-      success: true
+  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
+    page.pageNum = page.current ? page.current : page.pageNum ?? 1
+    let params = {
+      keyWord: "",
+      page: `${page.pageNum}^${page.pageSize}`,
+      date: "",
+      sort: "",
+      status: [0]
     }
-    // console.log("item", item)
-    // item.pageNum = item.current ? item.current - 1 : item.pageNum ?? 0
-    // return dispatch({
-    //   type: "resources/getList",
-    //   payload: item
-    // }).then(res => {
-    //   console.log("res", res)
-
-    // })
+    return dispatch({
+      type: "article/getList",
+      payload: params
+    }).then(res => {
+      return res
+    })
   }
+
   return (
     <PageContainer title=" ">
-      <Card><QueryForm list={queryList} onQueryForm={onQueryForm} onFormRest={onFormRest}></QueryForm></Card>
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} data={data} getList={getList} type="c1" ActionList={null}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} data={data} getList={getList} isSearch={true} type="c1" ActionList={ActionList}></UniversalTable>
       </Card>
     </PageContainer>
   )

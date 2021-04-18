@@ -23,9 +23,9 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
     const { dispatch } = this.props;
 
     if (dispatch) {
-      dispatch({
-        type: 'global/fetchNotices',
-      });
+      // dispatch({
+      //   type: 'global/fetchNotices',
+      // });
     }
   }
 

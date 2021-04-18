@@ -1,185 +1,166 @@
 import { useState, useEffect } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Table, Button, Select, Divider } from 'antd'
+import { Card, Table, Button, Select, Divider, Form, message } from 'antd'
 import QueryForm from '@components/QueryForm'
 import { connect } from 'dva'
 import { history } from 'umi'
-import ActionList from './actionList/actionList'
-const { Option } = Select
+import MaterialList from './materialList'
+import BigUpload from './bigUpload'
+import EditList from './editList'
 
-const index = (props) => {
-  const { dispatch } = props
-  const [scroll, setScroll] = useState({ x: "2400px" })
-  const [data, setData] = useState({})
-  const [queryList, setQueryList] = useState([
-    { label: "字段筛选", value: "a", type: "searchinput", option: [{ label: "bbb", value: "qq" }, { label: "ccc", value: "dddd" }] },
-    { label: "客户来源", value: "b", type: "checkboxgroup", option: [{ label: "bbb", value: "qq" }, { label: "ccc", value: "dddd" }] },
-    { label: "创建时间", value: "d", type: "rangdatepicker", option: [] },
-    { label: "最后跟进时间", value: "f", type: "rangdatepicker", option: [] },
-    { label: "负责销售", value: "g", type: "searchselect", option: [{ label: "bbb", value: "qq" }, { label: "ccc", value: "dddd" }] },
-  ])
-  const [queryString, setQueryString] = useState({})
-  const [column, setColumn] = useState([
-    {
-      title: "客户ID",
-      dataIndex: "a",
-      width: 200,
-    },
-    {
-      title: "锁定客户",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "客户来源",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "客户类型",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "客户名称",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "需求",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "所在地区",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "所在行业",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "联系人",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "联系电话",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "去年累计到款",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "今年累计到款",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "合同次数",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "成单总金额",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "资源对接人",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "负责销售",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "负责售后",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "创建时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "最后跟进时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "掉保时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: "掉保时间",
-      dataIndex: "a",
-      width: 200
-    },
-    {
-      title: '操作',
-      key: 'action',
-      width: 500,
-      fixed: "right",
-      render: (item) => <div>
-        <a onClick={() => viewInfo(item)}>详情</a>
-        <Divider type="vertical" />
-        <a onClick={() => edit(item)}>编辑</a>
-      </div>
-    },
-  ])
+const index = ({ dispatch }) => {
+  const [tabkey, setTabkey] = useState("1")
+  const [List, setList] = useState([])
+  const [countList, setCountList] = useState([])
+  const [scrollHeight, setScrollHeight] = useState(1)
+  const [totalList, setTotalList] = useState([])
+  const [visible, setVisible] = useState(false)
+  const [uploadVisible, setUploadVisible] = useState(false)
+  const [selectItem, setSelectItem] = useState([])
 
-  const onQueryForm = (item) => {
-    setQueryString({ ...queryString, ...item })
+  useEffect(() => {
+    getmaterialList()
+    return () => { }
+  }, [])
+
+  useEffect(() => {
+    console.log("selectItem", selectItem)
+    return () => { }
+  }, [selectItem])
+
+  const getmaterialList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
+    dispatch({
+      type: "material/getList",
+      payload: {
+        keyWord: "",
+        page: `${page.pageNum}^${page.pageSize}`,
+        date: "",
+        sort: "",
+        status: [0]
+      }
+    }).then(res => {
+      setList([
+        { filename: "12312312312312312", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312313", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312314", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312315", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312316", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312317", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312318", isNew: true, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312319", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312311", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312312", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312313", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312314", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312315", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312316", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312317", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312318", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312319", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312311", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312312", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312313", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312314", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312315", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312316", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312317", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312318", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312319", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312311", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312312", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312313", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312314", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312315", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312316", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312317", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312318", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312319", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+        { filename: "12312312312312311", isNew: false, imageUrl: "aaasdasdasdasdasdasdasdasdas" },
+      ])
+    })
+
   }
 
-  const onFormRest = () => {
-    setQueryString({})
-  }
-
-  const getList = (item = { pageNum: 0, pageSize: 20 }) => {
-    return {
-      data: [{ key: 1, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 2, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 3, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 4, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 5, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 6, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 7, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 8, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 9, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 10, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      { key: 11, a: "aaaa123", amount: "bbbb", type: "cccc", note: "dddd" },
-      ],
-      total: 1000,
-      success: true
+  const getscrollbarheight = (e) => {
+    console.log('aaaa')
+    if (List.length > 0) {
+      if (countList.length == 0) {
+        setCountList([{ number: 1, height: 0 }])
+      }
+      else {
+        let count = scrollHeight
+        let materialList = document.getElementById("materialList")
+        if (materialList.offsetHeight - (e.target.scrollHeight - e.target.scrollTop) > 1) {
+          if (!countList.some(p => p.height == e.target.scrollHeight)) {
+            getmaterialList({ page: count + 1 })
+            setCountList([].concat(countList, { number: count + 1, height: e.target.scrollHeight }))
+            setScrollHeight(count + 1)
+          }
+        }
+      }
     }
-    // console.log("item", item)
-    // item.pageNum = item.current ? item.current - 1 : item.pageNum ?? 0
-    // return dispatch({
-    //   type: "resources/getList",
-    //   payload: item
-    // }).then(res => {
-    //   console.log("res", res)
-
-    // })
   }
+
+  const getpicheight = () => {
+    let materialList = document.getElementById("materialList")
+    if (materialList) {
+      let pch = document.body.clientHeight - materialList.getBoundingClientRect().top - 90;
+      return pch + "px"
+    }
+  }
+
+  const onClose = () => {
+    setVisible(false)
+    setUploadVisible(false)
+  }
+
+  const batchExport = () => {
+    setUploadVisible(true)
+  }
+
+  const batchEdit = () => {
+    if (selectItem.length < 1) {
+      message.error("请先选择素材")
+      return
+    }
+    setVisible(true)
+  }
+
+  const batchDel = () => {
+    if (selectItem.length < 1) {
+      message.error("请先选择素材")
+      return
+    }
+    dispatch({
+      type: "material/batchDel",
+      payload: selectItem
+    })
+  }
+
   return (
-    <PageContainer title=" ">
-      <Card><QueryForm list={queryList} onQueryForm={onQueryForm} onFormRest={onFormRest}></QueryForm></Card>
-      <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} data={data} getList={getList} type="c1" ActionList={null}></UniversalTable>
+    <PageContainer title=" "
+      tabList={[{ key: "1", tab: "图片" }, { key: "2", tab: "视频" }]}
+      tabActiveKey={tabkey}
+      onTabChange={(key) => setTabkey(key)}>
+      <Card bodyStyle={{ padding: "20px" }}>
+        <div style={{ marginBottom: "20px" }}>
+          <Button style={{ marginRight: "10px" }} type="primary" onClick={batchExport}>批量导入</Button>
+          <Button style={{ marginRight: "10px" }} type="primary" onClick={batchEdit}>批量编辑</Button>
+          <Button style={{ marginRight: "10px" }} type="primary" onClick={batchDel}>批量删除</Button>
+        </div>
+        <div id="materialList"
+          onScroll={getscrollbarheight}
+          style={{ overflowY: "auto", height: getpicheight(), border: "1px solid #eeeeee" }}>
+          <MaterialList List={List} getSelectItem={(value) => setSelectItem(value)} />
+        </div>
       </Card>
+      {
+        visible ? <EditList onClose={onClose} List={selectItem} /> : null
+      }
+      {
+        uploadVisible ? <BigUpload onClose={onClose} /> : null
+      }
     </PageContainer>
   )
 }

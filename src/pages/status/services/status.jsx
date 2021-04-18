@@ -6,3 +6,10 @@ export async function getstatustree (params) {
   return request(`${APIHOSTNAME}/WFM/Status/Tree/SubsetById/${id}`)
 }
 
+export async function edit (params) {
+  return request(`${APIHOSTNAME}/WFM/Status/Update/Single`, {
+    method: "POST",
+    data: params
+  })
+}
+

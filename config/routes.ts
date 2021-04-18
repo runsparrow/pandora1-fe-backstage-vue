@@ -49,54 +49,78 @@ export default [
             icon: 'smile',
             component: './Welcome',
           },
-          {
-            name: 'goods',
-            icon: 'table',
-            path: '/goods',
-            component: './goods/index',
-          },
+          // {
+          //   name: 'goods',
+          //   icon: 'table',
+          //   path: '/goods',
+          //   component: './goods/index',
+          // },
           {
             name: 'order',
-            icon: 'table',
+            icon: 'OrderedListOutlined',
             path: '/order',
             component: './order/index',
           },
           {
-            name: 'article',
-            icon: 'table',
+            name: "article",
+            icon: 'MessageOutlined',
             path: '/article',
-            component: './article/index',
+            routes: [
+              {
+                path: '/',
+                redirect: '/article/index',
+              },
+              {
+                name: 'my-article',
+                path: '/article/index',
+                component: './article/index',
+              },
+              {
+                name: 'new-article',
+                icon: 'table',
+                path: '/article/new',
+                hideInMenu: true,
+                component: './article/newArticle',
+              },
+              {
+                name: 'edit-article',
+                icon: 'table',
+                path: '/article/edit',
+                hideInMenu: true,
+                component: './article/newArticle',
+              }
+            ]
           },
           {
             name: 'dictionary',
-            icon: 'table',
+            icon: 'BookOutlined',
             path: '/dictionary',
             component: './dictionary/index',
           },
           {
             name: 'material',
-            icon: 'table',
+            icon: 'DisconnectOutlined',
             path: '/material',
             component: './material/index',
           },
           {
             name: 'navigation',
-            icon: 'table',
+            icon: 'MenuOutlined',
             path: '/navigation',
             component: './navigation/index',
           },
           {
             name: 'review',
-            icon: 'table',
+            icon: 'ReconciliationOutlined',
             path: '/review',
             component: './review/index',
           },
-          {
-            name: 'serial',
-            icon: 'table',
-            path: '/serial',
-            component: './serial/index',
-          },
+          // {
+          //   name: 'serial',
+          //   icon: 'table',
+          //   path: '/serial',
+          //   component: './serial/index',
+          // },
           {
             name: 'status',
             icon: 'table',

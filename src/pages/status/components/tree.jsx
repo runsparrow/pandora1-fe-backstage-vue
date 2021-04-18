@@ -14,7 +14,7 @@ const index = (props) => {
   }
 
   return (<div>
-    <Tree checkable
+    <Tree
       onSelect={onSelect}
       checkable={false}
       treeData={treeData} />
