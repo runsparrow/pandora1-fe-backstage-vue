@@ -1,46 +1,56 @@
-import React, { useRef, useState } from 'react';
-import { PlusOutlined, EllipsisOutlined } from '@ant-design/icons';
+import React, { useRef, useState, useEffect } from 'react';
+import { PlusOutlined, EllipsisOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { Button, Tag, Space, Menu, Dropdown, Table } from 'antd';
-import ProTable, { TableDropdown } from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
 import request from 'umi-request';
 import { components, handleResize } from '@/components/tableResizable'
-import { divide } from 'lodash';
 import './index.less'
 
-export default class index extends React.Component {
-  state = {
-    selectedRow: [],
-    columns: [],
+const index = (props) => {
+  const { getList, ActionList, type, isSearch = false, scroll = { x: "1000px" }, rowKey, column, refreshTable, isSelect = true } = props
+  const ref = useRef();
+  const [selectedRow, setSelectedRow] = useState([])
+  const [columns, setColumns] = useState([])
+
+  useEffect(() => {
+    setColumns(column.map((p, index) => {
+      return {
+        ...p, onHeaderCell: column => ({
+          width: column.width,
+          onResize: handleResize(index),
+        })
+      }
+    }))
+    return () => { }
+  }, [column])
+
+  const handleResize = index => (e, { size }) => {
+    const nextColumns = [...column];
+
+    nextColumns[index] = {
+      ...nextColumns[index],
+      width: size.width,
+    };
+
+    setColumns(nextColumns.map((p, index) => {
+      return {
+        ...p, onHeaderCell: column => ({
+          width: column.width,
+          onResize: handleResize(index)
+        })
+      }
+    }))
   };
 
-  componentDidMount () {
-    const { column } = this.props
-    this.setState({ columns: column })
+  const closerefresh = () => {
+    setSelectedRow([])
+    ref.current.clearSelected()
+    refreshTable()
   }
 
-  handleResize = index => (e, { size }) => {
-    this.setState(({ columns }) => {
-      const nextColumns = [...columns];
-      nextColumns[index] = {
-        ...nextColumns[index],
-        width: size.width,
-      };
-      return { columns: nextColumns };
-    });
-  };
-
-  render () {
-    const { selectedRow } = this.state
-    const { getList, ActionList, type, isSearch = false, scroll = { x: "1000px" }, rowKey } = this.props
-    const columns = this.state.columns.map((col, index) => ({
-      ...col,
-      onHeaderCell: column => ({
-        width: column.width,
-        onResize: this.handleResize(index),
-      }),
-    }));
-
-    return <ProTable
+  return (
+    <ProTable
+      actionRef={ref}
       components={components}
       columns={columns}
       request={async (params = {}) => {
@@ -54,14 +64,16 @@ export default class index extends React.Component {
         size: 'default',
       }}
       toolbar={{
-        title: (ActionList ? <ActionList selectedRow={selectedRow} type={type} /> : null)
+        title: (ActionList ? <ActionList selectedRow={selectedRow} type={type} closerefresh={closerefresh} /> : null)
       }}
       scroll={scroll}
-      rowSelection={{
+      rowSelection={isSelect ? {
         onChange: (_, selectedRows) => {
-          this.setState({ selectedRow: selectedRows })
-        },
-      }}
+          setSelectedRow(selectedRows)
+        }
+      } : false}
     />
-  }
+  )
 }
+
+export default index

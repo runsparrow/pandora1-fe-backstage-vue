@@ -55,7 +55,7 @@ export default {
   'menu.article': '资讯管理',
   'menu.article.my-article': '资讯列表',
   'menu.article.new-article': '新增资讯',
-  'menu.article.edit-article': '编辑管理',
+  'menu.article.edit-article': '编辑资讯',
   'menu.material': '素材管理',
   'menu.navigation': '菜单管理',
   'menu.review': '审核管理',
