@@ -57,23 +57,33 @@ const request = extend({
 
 // request拦截器, 改变url 或 options.
 request.interceptors.request.use(async (url, options) => {
-
   let token = localStorage.getItem("token");
   if (token) {
-    const headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `Bearer ${token || null}`,
-    }
-    return (
-      {
-        url: url,
-        options: { ...options, headers: headers },
+    if (!(options.data instanceof FormData)) {
+      const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+        'Authorization': `Bearer ${token || null}`,
       }
-    );
+      return (
+        {
+          url: url,
+          options: { ...options, headers: headers },
+        }
+      );
+    } else {
+      const headers = {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token || null}`,
+      }
+      return (
+        {
+          url: url,
+          options: { ...options, headers: headers },
+        }
+      );
+    }
   } else {
-
-
     const headers = {
       //'Content-Type': 'application/json; charset=utf-8',
       'Accept': 'application/json',
@@ -90,7 +100,6 @@ request.interceptors.request.use(async (url, options) => {
 // response拦截器, 处理response
 request.interceptors.response.use(async response => {
   const data = await response.clone().json()
-
   if (data.status == 401) {
     localStorage.setItem("token", "")
     history.replace("/user/login")

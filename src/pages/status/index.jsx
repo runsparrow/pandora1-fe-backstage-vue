@@ -1,9 +1,53 @@
 import { useState, useEffect } from 'react'
+import { PageContainer } from '@ant-design/pro-layout';
+import { Card, Table, Button, Select, Divider, Tree, Input } from 'antd'
+import { connect } from 'dva'
+import NavTree from './components/tree'
+import SelectForm from './components/selectForm'
+import { gettreelist } from '@utils/utils'
+import './index.less'
 
-const index = () => {
+
+const index = (props) => {
+  const { dispatch } = props
+  const [treeData, setTreeData] = useState([])
+  const [info, setInfo] = useState({})
+
+  useEffect(() => {
+    getnavtree()
+    return () => {
+    }
+  }, [])
+
+  const getnavtree = () => {
+    dispatch({
+      type: "statusTree/getstatustree",
+      payload: { id: "-1" }
+    }).then(res => {
+      setTreeData(gettreelist(res))
+    })
+  }
+
+  const getNavList = () => {
+    getnavtree()
+  }
+
+  const selectNode = (item) => {
+    setInfo(item)
+  }
+
   return (
-    <div>状态管理</div>
+    <PageContainer>
+      <div className="body">
+        <Card className="card-tree" title="状态树">
+          <NavTree treeData={treeData} selectNode={selectNode}></NavTree>
+        </Card>
+        <Card className="card-table" title="状态详情">
+          <SelectForm info={info} />
+        </Card>
+      </div>
+    </PageContainer>
   )
 }
 
-export default index
+export default connect(({ }) => ({}))(index)

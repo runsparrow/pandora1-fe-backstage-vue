@@ -45,6 +45,8 @@ const Model: LoginModelType = {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         message.success('🎉 🎉 🎉  登录成功！');
+        localStorage.setItem('antd-pro-authority', '["admin"]');
+        localStorage.setItem('authority', 'admin')
         let { redirect } = params as { redirect: string };
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
