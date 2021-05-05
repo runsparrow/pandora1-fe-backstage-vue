@@ -5,13 +5,12 @@ import { Card, Table, Button, Select, Divider } from 'antd'
 import QueryForm from '@components/QueryForm'
 import { connect } from 'dva'
 import { history } from 'umi'
-import ActionList from './actionList/actionList'
 const { Option } = Select
 
 const index = (props) => {
   const { dispatch } = props
   const [scroll, setScroll] = useState({ x: "1000px" })
-  const [data, setData] = useState({})
+
   const [column, setColumn] = useState([
     {
       title: "订单编号",
@@ -90,7 +89,7 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} data={data} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
       </Card>
     </PageContainer>
   )

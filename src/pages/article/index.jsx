@@ -11,7 +11,7 @@ const { Option } = Select
 const index = (props) => {
   const { dispatch } = props
   const [scroll, setScroll] = useState({ x: "1600" })
-  const [data, setData] = useState({})
+  
   const [column, setColumn] = useState([
     {
       title: "标题",
@@ -132,7 +132,7 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} data={data} getList={getList} isSearch={true} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll}  getList={getList} isSearch={true} type="c1" ActionList={ActionList}></UniversalTable>
       </Card>
     </PageContainer>
   )

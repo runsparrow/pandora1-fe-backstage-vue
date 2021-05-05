@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getList, batchUpload, batchDel } from '../services/material';
+import { getList, batchUpload, batchDel, review } from '../services/material';
 
 export default {
   namespace: 'material',
@@ -30,6 +30,14 @@ export default {
         return true
       } else {
         message.error("删除失败")
+        return false
+      }
+    },
+    *review ({ payload }, { call, put }) {
+      const response = yield call(review, payload);
+      if (response.result) {
+        return true
+      } else {
         return false
       }
     },

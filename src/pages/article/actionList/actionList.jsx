@@ -13,7 +13,7 @@ const index = ({ selectedRow }) => {
   return (
     <div className="titlebt">
       <Button type="primary" onClick={gotonew}>
-        <PlusOutlined />批量关闭订单
+        <PlusOutlined />新增资讯
       </Button>
     </div>)
 }

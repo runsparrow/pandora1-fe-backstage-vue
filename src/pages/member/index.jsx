@@ -2,16 +2,21 @@ import { useState, useEffect } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Modal } from 'antd'
-import { PushpinFilled } from '@ant-design/icons'
+import { DeleteFilled } from '@ant-design/icons'
 import QueryForm from '@components/QueryForm'
 import { connect } from 'dva'
 import { history } from 'umi'
+import ActionList from './actionList/actionList'
+import NewMember from './newMember'
 const { Option } = Select
 const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
   const [scroll, setScroll] = useState({ x: "1000px" })
+  
+  const [isShow, setIsShow] = useState(false)
+  const [info, setInfo] = useState({})
   const [column, setColumn] = useState([
     {
       title: "会员名称",
@@ -63,38 +68,41 @@ const index = (props) => {
       search: false,
       fixed: "right",
       render: (item) => <div>
-        <a onClick={() => review(item)}>审核</a>
+        <a onClick={() => edit(item)}>编辑</a>
+        <Divider type="vertical" />
+        <a onClick={() => del(item)}>删除</a>
       </div>
     },
   ])
 
-  const review = (item) => {
+
+
+  const del = (item) => {
     confirm({
-      title: '审核操作',
-      icon: <PushpinFilled />,
-      content: '是否审核通过？',
-      okText: "审核通过",
-      cancelText: "审核不通过",
+      title: '删除操作',
+      icon: <DeleteFilled />,
+      content: '是否要删除该条信息？',
+      okText: "确定",
+      cancelText: "取消",
       onOk () {
-        //cms.authority.approver.pass
         dispatch({
-          type: "authority/review",
-          payload: { id: item.id, statusKey: "cms.authority.approver.pass" }
+          type: "member/del",
+          payload: { id: item.id }
         }).then(res => {
           getList()
         })
       },
       onCancel () {
-        //cms.authority.approver.refuse
-        dispatch({
-          type: "authority/review",
-          payload: { id: item.id, statusKey: "cms.authority.approver.refuse" }
-        }).then(res => {
-          getList()
-        })
         getList()
       },
     });
+  }
+
+
+
+  const edit = (item) => {
+    setInfo(item)
+    setIsShow(true)
   }
 
   const getList = (page = { pageNum: 0, pageSize: 20 }, queryString = {}) => {
@@ -104,20 +112,24 @@ const index = (props) => {
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: "",
-      status: [2]
+      status: [0]
     }
     return dispatch({
-      type: "authority/getList",
+      type: "member/getList",
       payload: params
     }).then(res => {
       return res
     })
   }
-  
   return (
-    <Card style={{ marginTop: "20px" }}>
-      <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
-    </Card>
+    <PageContainer title=" ">
+      <Card style={{ marginTop: "20px" }}>
+        <UniversalTable column={column} scroll={scroll} isSearch={true}  getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+      </Card>
+      {
+        isShow ? <NewMember close={() => setIsShow(false)} isNew={false} info={info} /> : null
+      }
+    </PageContainer>
   )
 }
 

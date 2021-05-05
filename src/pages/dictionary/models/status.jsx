@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getstatustree, editNode, delNode, addNode } from '../services/status';
+import { getstatustree, editNode, delNode, addNode, getGoodsTree } from '../services/status';
 
 export default {
   namespace: 'dictionary',
@@ -8,6 +8,14 @@ export default {
   effects: {
     *getstatustree ({ payload }, { call, put }) {
       const response = yield call(getstatustree, payload);
+      if (response.error == null) {
+        return response.tree
+      } else {
+        return []
+      }
+    },
+    *getGoodsTree ({ payload }, { call, put }) {
+      const response = yield call(getGoodsTree, payload);
       if (response.error == null) {
         return response.tree
       } else {

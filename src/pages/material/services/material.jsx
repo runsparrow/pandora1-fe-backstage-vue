@@ -22,4 +22,11 @@ export async function batchDel (params) {
   })
 }
 
+export async function review (params) {
+  return request(`${APIHOSTNAME}/CMS/Goods/Update/ToStatus`, {
+    method: "POST",
+    data: params
+  })
+}
+
 
