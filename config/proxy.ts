@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/media/': {
-      target: 'http://106.15.88.18:8001',
+      target: 'https://webapi-xs.com:8000/media',
       changeOrigin: true,
       pathRewrite: { '^/media': '' },
     },
