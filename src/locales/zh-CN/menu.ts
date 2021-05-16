@@ -63,5 +63,6 @@ export default {
   'menu.member': '会员管理',
   'menu.memberpower': '套餐管理',
   'menu.status': '状态管理',
-  'menu.goodsClassify': "商品分类管理"
+  'menu.goodsClassify': "商品分类管理",
+  'menu.users': "用户管理"
 };

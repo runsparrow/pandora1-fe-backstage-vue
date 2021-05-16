@@ -7,69 +7,40 @@ import QueryForm from '@components/QueryForm'
 import { connect } from 'dva'
 import { history } from 'umi'
 import ActionList from './actionList/actionList'
-import NewMember from './newMemberPower'
+import NewUsers from './newUsers'
 const { Option } = Select
 const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
   const [scroll, setScroll] = useState({ x: "1000px" })
-
   const [isShow, setIsShow] = useState(false)
   const [info, setInfo] = useState({})
   const [column, setColumn] = useState([
     {
-      title: "套餐名称",
+      title: "用户名",
       dataIndex: "name",
       width: 200,
     },
     {
-      title: "价格",
-      dataIndex: "price",
-      search: false,
+      title: "密码",
+      dataIndex: "password",
       width: 200,
       search: false,
+      render: res => {
+        return "*******"
+      }
     },
     {
-      title: "有效期天数限制",
-      dataIndex: "daysLimit",
-      width: 200,
-      search: false,
-    },
-    {
-      title: "是否可下载",
-      dataIndex: "isDown",
-      width: 200,
-      search: false,
-    },
-    {
-      title: "下载限制",
-      dataIndex: "downLimit",
-      width: 200
-    },
-    {
-      title: "是否可上传",
-      dataIndex: "isUpload",
-      width: 200,
-      search: false,
-    },
-    {
-      title: "上传限制",
-      dataIndex: "uploadLimit",
+      title: "邮箱",
+      dataIndex: "email",
       search: false,
       width: 200
     },
     {
-      title: "是否可购买",
-      dataIndex: "isBuy",
-      width: 200,
-      search: false,
-    },
-    {
-      title: "购买限制",
-      dataIndex: "buyLimit",
-      width: 200,
-      search: false,
+      title: "手机",
+      dataIndex: "mobile",
+      width: 200
     },
     {
       title: '操作',
@@ -96,7 +67,7 @@ const index = (props) => {
       cancelText: "取消",
       onOk () {
         dispatch({
-          type: "memberpower/del",
+          type: "users/del",
           payload: { id: item.id }
         }).then(res => {
           getList()
@@ -124,7 +95,7 @@ const index = (props) => {
       sort: ""
     }
     return dispatch({
-      type: "memberpower/getList",
+      type: "users/getList",
       payload: params
     }).then(res => {
       return res
@@ -136,7 +107,7 @@ const index = (props) => {
         <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
       </Card>
       {
-        isShow ? <NewMember close={() => setIsShow(false)} isNew={false} info={info} /> : null
+        isShow ? <NewUsers close={() => setIsShow(false)} isNew={false} info={info} /> : null
       }
     </PageContainer>
   )

@@ -39,10 +39,10 @@ const index = (props) => {
   return (
     <PageContainer>
       <div className="body">
-        <Card className="card-tree" title="状态树">
+        <Card className="card-tree" title="商品分类树">
           <NavTree treeData={treeData} selectNode={selectNode} getNavList={getNavList}></NavTree>
         </Card>
-        <Card className="card-table" title="状态详情">
+        <Card className="card-table" title="商品分类详情">
           <SelectForm info={info} />
         </Card>
       </div>

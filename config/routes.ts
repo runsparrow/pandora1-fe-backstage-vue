@@ -140,6 +140,12 @@ export default [
             component: './status/index',
           },
           {
+            name: 'users',
+            icon: 'table',
+            path: '/users',
+            component: './users/index',
+          },
+          {
             name: 'goodsClassify',
             icon: 'table',
             path: '/goodsClassify',
