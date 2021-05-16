@@ -1,4 +1,6 @@
 import { reloadAuthorized } from './Authorized';
+import pathRegexp from 'path-to-regexp';
+import { Route } from '@/models/connect';
 
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority(str?: string): string | string[] {
@@ -30,3 +32,45 @@ export function setAuthority(authority: string | string[]): void {
   // auto reload
   reloadAuthorized();
 }
+export const getAuthorityCurrentRoute = <T extends Route>(
+  router: T[] = [],
+  pathname: string,
+): T | undefined =>{
+  const authority = router.find(
+    ({ routes, path = '/', target = '_self' }) =>{
+      // (path && target !== '_blank' && pathRegexp(path).exec(pathname))  || (routes && getAuthorityCurrentRoute(routes, pathname)) 
+      return (path && target !== '_blank' && pathRegexp(path).exec(pathname)) 
+      || (routes && getAuthorityCurrentRoute(routes, pathname)) 
+    } 
+  );
+
+  if (authority){
+    return authority
+  }else{
+    return undefined;
+  }
+}
+export const getRouteAuthority = (path: string, routeData: Route[]) => {
+  let authorities: string[] | string | undefined;
+  routeData.forEach((route) => {
+    // match prefix
+    console.log(route.authority)
+    if (pathRegexp(`${route.path}/(.*)`).test(`${path}/`)) {
+      if (route.authority) {
+        authorities = route.authority;
+      }
+      // exact match
+      if (route.path === path) {
+        authorities = route.authority || authorities;
+      }
+      // get children authority recursively
+      if (route.routes) {
+        authorities = getRouteAuthority(path, route.routes) || authorities;
+      }
+    }
+  });
+  console.log(authorities)
+  return authorities;
+};
+
+

@@ -12,6 +12,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/media': '' },
     },
+    '/files/': {
+      target: 'https://webapi-xs.com:8000/file',
+      changeOrigin: true,
+      pathRewrite: { '^/files': '' },
+    },
   },
   test: {
     '/api/': {

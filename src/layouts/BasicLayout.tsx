@@ -18,7 +18,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import type { ConnectState } from '@/models/connect';
 import { getMatchMenu } from '@umijs/route-utils';
-import logo from '../assets/logo.svg';
+import logo from '../assets/indexlogo.png';
 const noMatch = (
   <Result
     status={403}
@@ -156,7 +156,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             <span>{route.breadcrumbName}</span>
           );
         }}
-        footerRender={() => defaultFooterDom}
+        footerRender={() => null}
         menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
         postMenuData={(menuData) => {
@@ -168,7 +168,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           {children}
         </Authorized>
       </ProLayout>
-      <SettingDrawer
+      {/* <SettingDrawer
         settings={settings}
         onSettingChange={(config) =>
           dispatch({
@@ -176,7 +176,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             payload: config,
           })
         }
-      />
+      /> */}
     </>
   );
 };

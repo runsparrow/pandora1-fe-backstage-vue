@@ -99,8 +99,8 @@ request.interceptors.request.use(async (url, options) => {
 
 // response拦截器, 处理response
 request.interceptors.response.use(async response => {
-  const data = await response.clone().json()
-  if (data.status == 401) {
+
+  if (response.status == 401) {
     localStorage.setItem("token", "")
     history.replace("/user/login")
   }

@@ -61,6 +61,7 @@ export default {
   'menu.review': '审核管理',
   'menu.serial': '流水管理',
   'menu.member': '会员管理',
+  'menu.memberpower': '套餐管理',
   'menu.status': '状态管理',
   'menu.goodsClassify': "商品分类管理"
 };

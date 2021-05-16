@@ -17,7 +17,8 @@ export default (): React.ReactNode => {
   return (
     <PageContainer>
       <Card>
-        <Alert
+        <h1>欢迎使用本系统</h1>
+        {/* <Alert
           message={intl.formatMessage({
             id: 'pages.welcome.alertMessage',
             defaultMessage: '更快更强的重型组件，已经发布。',
@@ -56,7 +57,7 @@ export default (): React.ReactNode => {
             <FormattedMessage id="pages.welcome.link" defaultMessage="欢迎使用" />
           </a>
         </Typography.Text>
-        <CodePreview>yarn add @ant-design/pro-layout</CodePreview>
+        <CodePreview>yarn add @ant-design/pro-layout</CodePreview> */}
       </Card>
     </PageContainer>
   );
