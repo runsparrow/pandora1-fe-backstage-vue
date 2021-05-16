@@ -14,7 +14,6 @@ const { confirm } = Modal;
 const index = (props) => {
   const { dispatch } = props
   const [scroll, setScroll] = useState({ x: "1000px" })
-  
   const [isShow, setIsShow] = useState(false)
   const [info, setInfo] = useState({})
   const [column, setColumn] = useState([
@@ -111,8 +110,7 @@ const index = (props) => {
       keyWord: "",
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
-      sort: "",
-      status: [0]
+      sort: ""
     }
     return dispatch({
       type: "member/getList",
@@ -124,7 +122,7 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true}  getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
       </Card>
       {
         isShow ? <NewMember close={() => setIsShow(false)} isNew={false} info={info} /> : null

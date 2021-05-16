@@ -61,36 +61,36 @@ export default [
             path: '/order',
             component: './order/index',
           },
-          {
-            name: "article",
-            icon: 'MessageOutlined',
-            path: '/article',
-            routes: [
-              {
-                path: '/',
-                redirect: '/article/index',
-              },
-              {
-                name: 'my-article',
-                path: '/article/index',
-                component: './article/index',
-              },
-              {
-                name: 'new-article',
-                icon: 'table',
-                path: '/article/new',
-                hideInMenu: true,
-                component: './article/newArticle',
-              },
-              {
-                name: 'edit-article',
-                icon: 'table',
-                path: '/article/edit',
-                hideInMenu: true,
-                component: './article/newArticle',
-              }
-            ]
-          },
+          // {
+          //   name: "article",
+          //   icon: 'MessageOutlined',
+          //   path: '/article',
+          //   routes: [
+          //     {
+          //       path: '/',
+          //       redirect: '/article/index',
+          //     },
+          //     {
+          //       name: 'my-article',
+          //       path: '/article/index',
+          //       component: './article/index',
+          //     },
+          //     {
+          //       name: 'new-article',
+          //       icon: 'table',
+          //       path: '/article/new',
+          //       hideInMenu: true,
+          //       component: './article/newArticle',
+          //     },
+          //     {
+          //       name: 'edit-article',
+          //       icon: 'table',
+          //       path: '/article/edit',
+          //       hideInMenu: true,
+          //       component: './article/newArticle',
+          //     }
+          //   ]
+          // },
           {
             name: 'dictionary',
             icon: 'BookOutlined',

@@ -13,7 +13,7 @@ const proSettings: DefaultSettings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '后台系统',
+  title: '漫云后台系统',
   pwa: false,
   iconfontUrl: '',
 };
