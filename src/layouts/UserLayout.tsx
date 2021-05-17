@@ -5,7 +5,7 @@ import type { ConnectProps } from 'umi';
 import { Link, SelectLang, useIntl, connect, FormattedMessage } from 'umi';
 import React from 'react';
 import type { ConnectState } from '@/models/connect';
-import logo from '../assets/logo.svg';
+import logo from '../assets/indexlogo.png';
 import styles from './UserLayout.less';
 
 export type UserLayoutProps = {
@@ -46,12 +46,12 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
         </div> */}
         <div className={styles.content}>
           <div className={styles.top}>
-            {/* <div className={styles.header}>
+            <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo} />
-                <span className={styles.title}>Ant Design</span>
+                <span className={styles.title}>漫云后台管理系统</span>
               </Link>
-            </div> */}
+            </div>
             <div className={styles.desc}>
               {/* <FormattedMessage
                 id="pages.layouts.userLayout.title"
