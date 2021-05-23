@@ -43,7 +43,7 @@ const index = ({ List = [], onClose }) => {
           List.map((p, index) =>
             <div className="formform" key={index} >
               <div className="imgform">
-                {p.imageUrl}
+                {p.fullUrl}
               </div>
               <div className="editform">
                 <Form.Item label="素材名" name={`name_${index + 1}`}>

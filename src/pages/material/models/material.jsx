@@ -9,7 +9,7 @@ export default {
     *getList ({ payload }, { call, put }) {
       const response = yield call(getList, payload);
       if (response.error == null) {
-        return response.tree
+        return response.rows
       } else {
         return []
       }

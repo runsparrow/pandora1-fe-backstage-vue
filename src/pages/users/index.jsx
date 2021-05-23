@@ -101,13 +101,14 @@ const index = (props) => {
       type: "users/getList",
       payload: params
     }).then(res => {
+      console.log("getList", res)
       return res
     })
   }
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} isSelect={false} getList={getList} type="c1" refreshTable={getList} ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSearch={true} isSelect={false} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
       </Card>
       {
         isShow ? <NewUsers close={() => close()} isNew={false} info={info} /> : null

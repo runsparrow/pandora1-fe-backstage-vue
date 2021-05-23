@@ -33,12 +33,12 @@ const index = ({ List, getSelectItem }) => {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
               <Checkbox onChange={(e) => onCheckChange(e, p)} />
               {
-                p.isNew ? <img width="20px" height="20px" src={newface}></img> : null
+                p.statusValue == 0 ? <img width="20px" height="20px" src={newface}></img> : null
               }
             </div>
-            <div style={{ height: "16em", border: "1px solid #eeeeee" }}><img onClick={() => materialClick(p)} src={p.imgUrl} style={{ width: "100%", height: "100%" }}></img></div>
+            <div style={{ height: "16em", border: "1px solid #eeeeee" }}><img onClick={() => materialClick(p)} src={p.fullUrl} style={{ width: "100%", height: "100%" }}></img></div>
             <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
-              <div style={{ textAlign: "left" }}>{p.filename.length > 15 ? <Tooltip title={p.filename}>{p.filename.slice(0, 15)}...</Tooltip> : p.filename}</div>
+              <div style={{ textAlign: "left" }}>{p.name.length > 15 ? <Tooltip title={p.name}>{p.name.slice(0, 15)}...</Tooltip> : p.name}</div>
             </div>
           </Card>) : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}><img src={nodata}></img></div>
       }
