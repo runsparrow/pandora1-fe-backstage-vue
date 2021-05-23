@@ -21,14 +21,14 @@ const index = ({ dispatch, close, isNew = true, info = {} }) => {
     form.validateFields().then((values) => {
       if (isNew) {
         dispatch({
-          type: "member/add",
+          type: "users/add",
           payload: values
         }).then(res => {
           if (res) close()
         })
       } else {
         dispatch({
-          type: "member/edit",
+          type: "users/edit",
           payload: { ...info, ...values }
         }).then(res => {
           if (res) close()
@@ -38,7 +38,7 @@ const index = ({ dispatch, close, isNew = true, info = {} }) => {
   }
 
   return <Modal
-    title={isNew ? "新建会员" : "编辑会员"}
+    title={isNew ? "新建用户" : "编辑用户"}
     visible={true}
     footer={
       <div>

@@ -72,7 +72,7 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSelect={false} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
       </Card>
     </PageContainer>
   )

@@ -7,7 +7,7 @@ import { components, handleResize } from '@/components/tableResizable'
 import './index.less'
 
 const index = (props) => {
-  const { getList, ActionList, type, isSearch = false, scroll = { x: "1000px" }, rowKey, column, refreshTable, isSelect = true } = props
+  const { getList, ActionList, type, isSearch = false, scroll = { x: "1000px" }, rowKey, column, isSelect = true } = props
   const ref = useRef();
   const [selectedRow, setSelectedRow] = useState([])
   const [columns, setColumns] = useState([])
@@ -45,7 +45,7 @@ const index = (props) => {
   const closerefresh = () => {
     setSelectedRow([])
     ref.current.clearSelected()
-    refreshTable()
+    ref.current.reload()
   }
 
   return (

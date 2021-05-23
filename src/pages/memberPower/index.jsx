@@ -40,6 +40,9 @@ const index = (props) => {
       title: "是否可下载",
       dataIndex: "isDown",
       width: 200,
+      rrender: res => {
+        return res ? "是" : "否"
+      },
       search: false,
     },
     {
@@ -51,6 +54,9 @@ const index = (props) => {
       title: "是否可上传",
       dataIndex: "isUpload",
       width: 200,
+      rrender: res => {
+        return res ? "是" : "否"
+      },
       search: false,
     },
     {
@@ -63,6 +69,9 @@ const index = (props) => {
       title: "是否可购买",
       dataIndex: "isBuy",
       width: 200,
+      rrender: res => {
+        return res ? "是" : "否"
+      },
       search: false,
     },
     {
@@ -133,7 +142,7 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" isSelect={false} ActionList={ActionList}></UniversalTable>
       </Card>
       {
         isShow ? <NewMember close={() => setIsShow(false)} isNew={false} info={info} /> : null

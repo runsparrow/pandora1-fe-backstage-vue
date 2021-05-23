@@ -5,11 +5,16 @@ import { history } from 'umi'
 import NewUsers from '../newUsers'
 import { PlusOutlined } from '@ant-design/icons'
 
-const index = ({ selectedRow, type }) => {
+const index = ({ selectedRow, type, closerefresh }) => {
   const [isShow, setIsShow] = useState(false)
 
   const add = () => {
     setIsShow(true)
+  }
+
+  const close = () => {
+    setIsShow(false)
+    closerefresh()
   }
 
   return (
@@ -18,7 +23,7 @@ const index = ({ selectedRow, type }) => {
         <PlusOutlined />新建用户
       </Button>
       {
-        isShow ? <NewUsers isNew={true} close={() => setIsShow(false)} /> : null
+        isShow ? <NewUsers isNew={true} close={close} /> : null
       }
     </div>)
 }

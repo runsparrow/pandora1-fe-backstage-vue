@@ -79,14 +79,17 @@ const index = (props) => {
     });
   }
 
-
+  const close = () => {
+    setIsShow(false)
+    getList()
+  }
 
   const edit = (item) => {
     setInfo(item)
     setIsShow(true)
   }
 
-  const getList = (page = { pageNum: 0, pageSize: 20 }, queryString = {}) => {
+  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
     page.pageNum = page.current ? page.current : page.pageNum ?? 1
     let params = {
       keyWord: "",
@@ -104,10 +107,10 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSearch={true} isSelect={false} getList={getList} type="c1" refreshTable={getList} ActionList={ActionList}></UniversalTable>
       </Card>
       {
-        isShow ? <NewUsers close={() => setIsShow(false)} isNew={false} info={info} /> : null
+        isShow ? <NewUsers close={() => close()} isNew={false} info={info} /> : null
       }
     </PageContainer>
   )

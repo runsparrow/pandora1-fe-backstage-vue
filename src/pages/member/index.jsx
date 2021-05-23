@@ -122,7 +122,7 @@ const index = (props) => {
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} isSelect={false} type="c1" ActionList={ActionList}></UniversalTable>
       </Card>
       {
         isShow ? <NewMember close={() => setIsShow(false)} isNew={false} info={info} /> : null
