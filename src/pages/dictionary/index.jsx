@@ -43,7 +43,7 @@ const index = (props) => {
           <NavTree treeData={treeData} selectNode={selectNode} getNavList={getNavList}></NavTree>
         </Card>
         <Card className="card-table" title="状态详情">
-          <SelectForm info={info} />
+          <SelectForm info={info} refresh={getnavtree} />
         </Card>
       </div>
     </PageContainer>

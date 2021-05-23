@@ -42,6 +42,7 @@ const Model: LoginModelType = {
       // Login successfully
       if (response.result) {
         localStorage.setItem("token", response.token)
+        localStorage.setItem("userInfo", JSON.stringify(response.user))
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         message.success('🎉 🎉 🎉  登录成功！');

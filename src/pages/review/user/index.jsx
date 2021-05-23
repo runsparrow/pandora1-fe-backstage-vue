@@ -104,7 +104,7 @@ const index = (props) => {
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: "",
-      status: [2]
+      status: [1]
     }
     return dispatch({
       type: "authority/getList",
@@ -113,7 +113,7 @@ const index = (props) => {
       return res
     })
   }
-  
+
   return (
     <Card style={{ marginTop: "20px" }}>
       <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>

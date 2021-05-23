@@ -40,14 +40,17 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
   render(): React.ReactNode {
     const {
       currentUser = {
-        avatar: '',
-        name: '',
+        avatar: '123',
+        name: '123',
       },
       menu,
     } = this.props;
+    let user = localStorage.getItem("userInfo")
+    console.log("user", localStorage.getItem("userInfo"))
+
     const menuHeaderDropdown = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        {menu && (
+        {/* {menu && (
           <Menu.Item key="center">
             <UserOutlined />
             个人中心
@@ -58,7 +61,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
             <SettingOutlined />
             个人设置
           </Menu.Item>
-        )}
+        )} */}
         {menu && <Menu.Divider />}
 
         <Menu.Item key="logout">
@@ -67,11 +70,12 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         </Menu.Item>
       </Menu>
     );
-    return currentUser && currentUser.name ? (
+
+    return user ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
-          <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-          <span className={`${styles.name} anticon`}>{currentUser.name}</span>
+          <Avatar size="small" className={styles.avatar} icon={<UserOutlined />} alt="avatar" />
+          <span className={`${styles.name} anticon`}>{JSON.parse(user).userName}</span>
         </span>
       </HeaderDropdown>
     ) : (
@@ -83,6 +87,7 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
             marginRight: 8,
           }}
         />
+        12312321
       </span>
     );
   }

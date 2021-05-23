@@ -67,9 +67,9 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = (props) => {
           <QuestionCircleOutlined />
         </a>
       </Tooltip>
-      <NoticeIconView /> */}
-      {/* <Avatar menu />
-      {REACT_APP_ENV && (
+      <NoticeIconView />*/}
+      <Avatar menu />
+      {/*  {REACT_APP_ENV && (
         <span>
           <Tag color={ENVTagColor[REACT_APP_ENV]}>{REACT_APP_ENV}</Tag>
         </span>

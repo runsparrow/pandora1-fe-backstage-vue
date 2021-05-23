@@ -7,7 +7,7 @@ const layout = {
   wrapperCol: { span: 12 },
 };
 
-const index = ({ info, dispatch }) => {
+const index = ({ info, dispatch, refresh }) => {
   const [form] = Form.useForm();
   const [formform, setFormform] = useState({})
 
@@ -17,10 +17,11 @@ const index = ({ info, dispatch }) => {
   }, [info])
 
   const onFinish = (item) => {
-    console.log("onFinish", item)
     dispatch({
-      type: "dictionary/edit",
+      type: "dictionary/editNode",
       payload: { ...info, ...item }
+    }).then(res => {
+      refresh()
     })
   }
 

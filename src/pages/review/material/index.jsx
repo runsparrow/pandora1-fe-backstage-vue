@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
-import { Card, Table, Button, Select, Divider } from 'antd'
+import { Card, Table, Button, Select, Divider, Modal } from 'antd'
+import { PushpinFilled } from '@ant-design/icons'
 import QueryForm from '@components/QueryForm'
 import { connect } from 'dva'
 import { history } from 'umi'
 const { Option } = Select
+const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
@@ -87,9 +89,10 @@ const index = (props) => {
       status: [1]
     }
     return dispatch({
-      type: "authority/getList",
+      type: "material/getList",
       payload: params
     }).then(res => {
+      console.log("getList", res)
       return res
     })
   }

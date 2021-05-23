@@ -37,7 +37,7 @@ const index = ({ dispatch }) => {
         page: `${page.pageNum}^${page.pageSize}`,
         date: "",
         sort: "",
-        status: [0]
+        status: []
       }
     }).then(res => {
       setList([
