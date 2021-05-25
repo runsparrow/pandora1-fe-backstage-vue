@@ -9,7 +9,7 @@ export async function getList (params) {
 }
 
 export async function review (params) {
-  return request(`${APIHOSTNAME}/CMS/Authority/Create/ToStatus`, {
+  return request(`${APIHOSTNAME}/CMS/Authority/Update/ToStatus`, {
     method: "POST",
     data: params
   })

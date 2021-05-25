@@ -57,6 +57,9 @@ const index = ({ dispatch, close, isNew = true, info = {} }) => {
       <Form.Item label="手机" name="mobile" rules={[{ required: true, message: '请输入手机号!' }]}>
         <Input />
       </Form.Item>
+      <Form.Item label="自有用户" name="isSelf" rules={[{ required: true, message: '请选择自有用户!' }]}>
+        <Radio.Group options={[{ label: "否", value: 0 }, { label: "是", value: 1 }]} />
+      </Form.Item>
       <Form.Item label="性别" name="gender" rules={[{ required: true, message: '请选择性别!' }]}>
         <Radio.Group options={[{ label: "男", value: "m" }, { label: "女", value: "f" }, { label: "保密", value: "s" }]} />
       </Form.Item>

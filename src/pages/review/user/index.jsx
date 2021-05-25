@@ -79,7 +79,7 @@ const index = (props) => {
         //cms.authority.approver.pass
         dispatch({
           type: "authority/review",
-          payload: { id: item.id, statusKey: "cms.authority.approver.pass" }
+          payload: { entity: { id: item.id }, statusKey: "cms.authority.approver.pass" }
         }).then(res => {
           getList()
         })
@@ -88,7 +88,7 @@ const index = (props) => {
         //cms.authority.approver.refuse
         dispatch({
           type: "authority/review",
-          payload: { id: item.id, statusKey: "cms.authority.approver.refuse" }
+          payload: { entity: { id: item.id }, statusKey: "cms.authority.approver.refuse" }
         }).then(res => {
           getList()
         })

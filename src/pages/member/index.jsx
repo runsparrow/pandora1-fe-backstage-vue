@@ -74,8 +74,6 @@ const index = (props) => {
     },
   ])
 
-
-
   const del = (item) => {
     confirm({
       title: '删除操作',
@@ -104,7 +102,7 @@ const index = (props) => {
     setIsShow(true)
   }
 
-  const getList = (page = { pageNum: 0, pageSize: 20 }, queryString = {}) => {
+  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
     page.pageNum = page.current ? page.current : page.pageNum ?? 1
     let params = {
       keyWord: "",

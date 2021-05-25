@@ -29,4 +29,11 @@ export async function review (params) {
   })
 }
 
+export async function batchEdit (params) {
+  return request(`${APIHOSTNAME}/CMS/Goods/Update/Multiple`, {
+    method: "POST",
+    data: params
+  })
+}
+
 

@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getList, batchUpload, batchDel, review } from '../services/material';
+import { getList, batchUpload, batchDel, review, batchEdit } from '../services/material';
 
 export default {
   namespace: 'material',
@@ -35,6 +35,14 @@ export default {
     },
     *review ({ payload }, { call, put }) {
       const response = yield call(review, payload);
+      if (response.result) {
+        return true
+      } else {
+        return false
+      }
+    },
+    *batchEdit ({ payload }, { call, put }) {
+      const response = yield call(batchEdit, payload);
       if (response.result) {
         return true
       } else {
