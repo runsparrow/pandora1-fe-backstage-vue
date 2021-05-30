@@ -43,7 +43,7 @@ const index = ({ List = [], onClose, dispatch }) => {
         ls.push({
           id: values[`id_${i}`],
           name: values[`name_${i}`],
-          tags: values[`tags_${i}`].length > 0 ? values[`tags_${i}`].join(",") : "",
+          tags: values[`tags_${i}`].length > 0 ? `,${values[`tags_${i}`].join(",")},` : "",
           ownerId: values[`owner_${i}`] ? values[`owner_${i}`].value : List[i].ownerId,
           ownerName: values[`owner_${i}`] ? values[`owner_${i}`].label : List[i].ownerName,
           level: values[`level_${i}`],
