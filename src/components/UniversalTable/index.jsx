@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useImperativeHandle } from 'react';
 import { PlusOutlined, EllipsisOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { Button, Tag, Space, Menu, Dropdown, Table } from 'antd';
 import ProTable from '@ant-design/pro-table';
@@ -7,10 +7,15 @@ import { components, handleResize } from '@/components/tableResizable'
 import './index.less'
 
 const index = (props) => {
-  const { getList, ActionList, type, isSearch = false, scroll = { x: "1000px" }, rowKey, column, isSelect = true } = props
+  const { getList, ActionList, type, isSearch = false, scroll = { x: "1000px" }, rowKey, column, isSelect = true, childRef } = props
   const ref = useRef();
   const [selectedRow, setSelectedRow] = useState([])
   const [columns, setColumns] = useState([])
+
+  useImperativeHandle(childRef, () => ({
+    getFresh: () => ref.current.reload()
+  }));
+
 
   useEffect(() => {
     setColumns(column.map((p, index) => {
@@ -41,6 +46,8 @@ const index = (props) => {
       }
     }))
   };
+
+
 
   const closerefresh = () => {
     setSelectedRow([])

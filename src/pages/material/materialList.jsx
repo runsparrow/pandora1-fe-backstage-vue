@@ -3,12 +3,15 @@ import { Card, Modal, Tooltip, Checkbox } from 'antd'
 import newface from '@assets/new.png'
 import styles from './index.less'
 import nodata from '@assets/nodata.png'
+import { set } from 'lodash'
 
 
-const index = ({ List, getSelectItem }) => {
+const index = ({ List, getSelectItem, }) => {
   const [visible, setVisible] = useState(false)
   const [info, setInfo] = useState({})
   const [selectItem, setSelectItem] = useState([])
+
+
 
   const materialClick = (item) => {
     setInfo(item)

@@ -56,7 +56,10 @@ const index = ({ List = [], onClose, dispatch }) => {
       }
       dispatch({
         type: "material/batchEdit",
-        payload: ls
+        payload: {
+          entities: ls,
+          statusKey: "cms.goods.open"
+        }
       }).then(res => {
         if (res) {
           onClose()

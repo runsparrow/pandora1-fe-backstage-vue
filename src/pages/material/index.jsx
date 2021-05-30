@@ -91,6 +91,11 @@ const index = ({ dispatch }) => {
     setVisible(false)
     setUploadVisible(false)
     getmaterialList()
+    clearselect()
+  }
+
+  const clearselect = () => {
+    return []
   }
 
   const batchExport = () => {
@@ -102,6 +107,7 @@ const index = ({ dispatch }) => {
       message.error("请先选择素材")
       return
     }
+
     setVisible(true)
   }
 

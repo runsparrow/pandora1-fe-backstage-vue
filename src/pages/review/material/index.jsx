@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Modal } from 'antd'
@@ -11,6 +11,7 @@ const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
+  const childRef = useRef()
   const [scroll, setScroll] = useState({ x: "1000px" })
   const [column, setColumn] = useState([
     {
@@ -62,24 +63,25 @@ const index = (props) => {
       onOk () {
         dispatch({
           type: "material/review",
-          payload: { id: item.id, statusKey: "cms.goods.pass" }
+          payload: { entity: { id: item.id }, statusKey: "cms.goods.pass" }
         }).then(res => {
-          getList()
+          console.log("asdas", childRef.current)
+          childRef.current.getFresh()
         })
       },
       onCancel () {
         dispatch({
           type: "material/review",
-          payload: { id: item.id, statusKey: "cms.goods.close" }
+          payload: { entity: { id: item.id }, statusKey: "cms.goods.close" }
         }).then(res => {
-          getList()
+          //console.log("asdas", childRef.current)
+          childRef.current.getFresh()
         })
-        getList()
       },
     });
   }
 
-  const getList = (page = { pageNum: 0, pageSize: 20 }, queryString = {}) => {
+  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
     page.pageNum = page.current ? page.current : page.pageNum ?? 1
     let params = {
       keyWord: "",
@@ -89,17 +91,16 @@ const index = (props) => {
       status: [1]
     }
     return dispatch({
-      type: "material/getList",
+      type: "authority/getGoodsList",
       payload: params
     }).then(res => {
-      console.log("getList", res)
       return res
     })
   }
 
   return (
     <Card style={{ marginTop: "20px" }}>
-      <UniversalTable column={column} scroll={scroll} isSelect={false} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
+      <UniversalTable childRef={childRef} column={column} scroll={scroll} isSelect={false} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
     </Card>
   )
 }

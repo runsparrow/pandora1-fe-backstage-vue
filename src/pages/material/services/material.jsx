@@ -30,7 +30,7 @@ export async function review (params) {
 }
 
 export async function batchEdit (params) {
-  return request(`${APIHOSTNAME}/CMS/Goods/Update/Multiple`, {
+  return request(`${APIHOSTNAME}/CMS/Goods/Update/BatchToStatus`, {
     method: "POST",
     data: params
   })

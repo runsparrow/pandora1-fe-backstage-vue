@@ -36,8 +36,10 @@ export default {
     *review ({ payload }, { call, put }) {
       const response = yield call(review, payload);
       if (response.result) {
+        message.success("审批成功")
         return true
       } else {
+        message.error("审批失败")
         return false
       }
     },
