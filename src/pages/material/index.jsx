@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Form, message } from 'antd'
-import QueryForm from '@components/QueryForm'
+import Queryform from './queryform'
 import { connect } from 'dva'
 import { history } from 'umi'
 import MaterialList from './materialList'
@@ -18,21 +18,21 @@ const index = ({ dispatch }) => {
   const [visible, setVisible] = useState(false)
   const [uploadVisible, setUploadVisible] = useState(false)
   const [selectItem, setSelectItem] = useState([])
+  const [queryString, setQueryString] = useState({})
 
   useEffect(() => {
     getmaterialList()
     return () => { }
   }, [])
 
-  useEffect(() => {
-    return () => { }
-  }, [selectItem])
-
-  const getmaterialList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}, isImage = true) => {
+  const getmaterialList = (page = { pageNum: 1, pageSize: 20 }, queryString = { name: "", classifyId: null, tags: "" }, isImage = true) => {
+    let c = queryString["classifyId"] || ""
+    let t = queryString["tags"] || ""
+    let n = queryString["name"] || ""
     dispatch({
       type: "material/getList",
       payload: {
-        keyWord: `^isImage=${isImage}`,
+        keyWord: `${n}^isImage=${isImage}^classifyId=${c}^tags=${t}`,
         page: `${page.pageNum}^${page.pageSize}`,
         date: "",
         sort: "",
@@ -105,6 +105,23 @@ const index = ({ dispatch }) => {
     setVisible(true)
   }
 
+  const resetform = () => {
+    setQueryString({})
+    if (tabkey == 1)
+      getmaterialList({ pageNum: 1, pageSize: 20 }, {}, true)
+    else
+      getmaterialList({ pageNum: 1, pageSize: 20 }, {}, false)
+  }
+
+  const formquery = (query) => {
+    setQueryString(query)
+    if (tabkey == 1)
+      getmaterialList({ pageNum: 1, pageSize: 20 }, query, true)
+    else
+      getmaterialList({ pageNum: 1, pageSize: 20 }, query, false)
+  }
+
+
   const batchDel = () => {
     if (selectItem.length < 1) {
       message.error("请先选择素材")
@@ -125,6 +142,7 @@ const index = ({ dispatch }) => {
       tabActiveKey={tabkey}
       onTabChange={changeTabs}>
       <Card bodyStyle={{ padding: "20px" }}>
+        <Queryform formquery={formquery} resetform={resetform} />
         <div style={{ marginBottom: "20px" }}>
           <Button style={{ marginRight: "10px" }} type="primary" onClick={batchExport}>批量导入</Button>
           <Button style={{ marginRight: "10px" }} type="primary" onClick={batchEdit}>批量编辑</Button>

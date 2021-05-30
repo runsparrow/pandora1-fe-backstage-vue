@@ -44,10 +44,13 @@ const index = ({ List = [], onClose, dispatch }) => {
           id: values[`id_${i}`],
           name: values[`name_${i}`],
           tags: values[`tags_${i}`].length > 0 ? values[`tags_${i}`].join(",") : "",
-          author: values[`author_${i}`],
-          isOriginal: Number(values[`isOriginal_${i}`]) == 1 ? true : false,
-          classifyId: values[`classifyId_${i}`].value, classifyName: values[`classifyId_${i}`].label,
-          navigationId: values[`navigationId${i}`].value, navigationId: values[`navigationId${i}`].label,
+          ownerId: values[`owner_${i}`] ? values[`owner_${i}`].value : List[i].ownerId,
+          ownerName: values[`owner_${i}`] ? values[`owner_${i}`].label : List[i].ownerName,
+          level: values[`level_${i}`],
+          classifyId: values[`classify_${i}`] ? values[`classify_${i}`].value : List[i].classifyId,
+          classifyName: values[`classify_${i}`] ? values[`classify_${i}`].label : List[i].classifyName,
+          navigationId: values[`navigation_${i}`] ? values[`navigation_${i}`].value : List[i].navigationId,
+          navigationName: values[`navigation_${i}`] ? values[`navigation_${i}`].label : List[i].navigationName,
           url: values[`url_${i}`]
         })
       }
@@ -119,10 +122,9 @@ const index = ({ List = [], onClose, dispatch }) => {
                   <Input />
                 </Form.Item>
                 <Form.Item label="素材标签" name={`tags_${index + 1}`} initialValue={p[`tags`] ? p[`tags`].split(',') : []}>
-                  <Select mode="tags" style={{ width: '100%' }}>
-                  </Select>
+                  <Select mode="tags" style={{ width: '100%' }} />
                 </Form.Item>
-                <Form.Item label="素材分类" name={`classifyId_${index + 1}`} initialValue={p[`classifyId`] || []}>
+                <Form.Item label="素材分类" name={`classify_${index + 1}`} initialValue={p[`classifyId`] || []}>
                   <TreeSelect
                     treeData={goodTreeData}
                     allowClear
@@ -130,7 +132,7 @@ const index = ({ List = [], onClose, dispatch }) => {
                     treeDefaultExpandAll
                   />
                 </Form.Item>
-                <Form.Item label="所属菜单" name={`navigationId${index + 1}`} initialValue={p[`navigationId`] || []}>
+                <Form.Item label="所属菜单" name={`navigation_${index + 1}`} initialValue={p[`navigationId`] || []}>
                   <TreeSelect
                     treeData={navTreeData}
                     allowClear
@@ -138,11 +140,11 @@ const index = ({ List = [], onClose, dispatch }) => {
                     treeDefaultExpandAll
                   />
                 </Form.Item>
-                <Form.Item label="是否免费" name={`isOriginal_${index + 1}`} initialValue={p[`isOriginal`] ? 1 : 0}>
+                <Form.Item label="是否免费" name={`level_${index + 1}`} initialValue={p[`level`] || 0}>
                   <Radio.Group options={[{ label: "否", value: 0 }, { label: "是", value: 1 }]} />
                 </Form.Item>
-                <Form.Item label="素材作者" name={`author_${index + 1}`} initialValue={p[`author`] || ""}>
-                  <Select >
+                <Form.Item label="素材作者" name={`owner_${index + 1}`} initialValue={p[`ownerId`] && p[`ownerName`] ? { value: p[`ownerId`], label: p[`ownerName`] } : null}>
+                  <Select labelInValue>
                     {memberList.map(p =>
                       <Option value={p.id}>{p.name}</Option>)}
                   </Select>
