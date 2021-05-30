@@ -16,7 +16,7 @@ const queryform = ({ formquery, resetform, dispatch }) => {
   const onFinish = (value) => {
     const param = {
       name: value.name ? value.name : "",
-      classifyId: value.name ? value.classifyId : "",
+      classifyId: value.classifyId ? value.classifyId : "",
       tags: value.tags ? value.tags : ""
     }
     formquery(param)
@@ -48,7 +48,6 @@ const queryform = ({ formquery, resetform, dispatch }) => {
             <TreeSelect
               treeData={goodTreeData}
               allowClear
-              labelInValue
               treeDefaultExpandAll
             />
           </FormItem>
