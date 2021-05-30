@@ -20,8 +20,8 @@ const index = ({ List, getSelectItem }) => {
       setSelectItem([].concat(selectItem, item))
       getSelectItem([].concat(selectItem, item))
     } else {
-      setSelectItem(selectItem.filter(p => p != item))
-      getSelectItem(selectItem.filter(p => p != item))
+      setSelectItem(selectItem.filter(p => p.id != item.id))
+      getSelectItem(selectItem.filter(p => p.id != item.id))
     }
   }
 
@@ -52,7 +52,7 @@ const index = ({ List, getSelectItem }) => {
           footer={null}>
           <div style={{ width: "100%" }}>
             <p><b>{info.filename}</b></p>
-            <img style={{ width: "100%" }} src={info.imageUrl}></img>
+            <img style={{ width: "100%" }} src={info.fullUrl}></img>
           </div>
         </Modal>
           : null

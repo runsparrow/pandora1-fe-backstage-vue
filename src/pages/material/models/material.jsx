@@ -44,8 +44,10 @@ export default {
     *batchEdit ({ payload }, { call, put }) {
       const response = yield call(batchEdit, payload);
       if (response.result) {
+        message.success("批量编辑成功")
         return true
       } else {
+        message.error("批量编辑失败")
         return false
       }
     },

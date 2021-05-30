@@ -24,6 +24,10 @@ const index = ({ List = [], onClose, dispatch }) => {
     getmember()
   }, [])
 
+  useEffect(() => {
+    console.log("List", List)
+  }, [List])
+
   const getpicheight = () => {
     let materialList = document.getElementById("materialList")
     if (materialList) {
@@ -39,16 +43,21 @@ const index = ({ List = [], onClose, dispatch }) => {
         ls.push({
           id: values[`id_${i}`],
           name: values[`name_${i}`],
-          tags: values[`tags_${i}`],
+          tags: values[`tags_${i}`].length > 0 ? values[`tags_${i}`].join(",") : "",
           author: values[`author_${i}`],
-          classifyId: values[`classifyId_${i}`], classifyName: "111",
-          NavigationId: values[`NavigationId_${i}`], NavigationName: "22",
+          isOriginal: Number(values[`isOriginal_${i}`]) == 1 ? true : false,
+          classifyId: values[`classifyId_${i}`].value, classifyName: values[`classifyId_${i}`].label,
+          navigationId: values[`navigationId${i}`].value, navigationId: values[`navigationId${i}`].label,
           url: values[`url_${i}`]
         })
       }
       dispatch({
         type: "material/batchEdit",
         payload: ls
+      }).then(res => {
+        if (res) {
+          onClose()
+        }
       })
     })
   }
@@ -106,30 +115,33 @@ const index = ({ List = [], onClose, dispatch }) => {
                 <img src={p.fullUrl} style={{ height: "150px" }} />
               </div>
               <div className="editform">
-                <Form.Item label="素材名" name={`name_${index + 1}`}>
+                <Form.Item label="素材名" name={`name_${index + 1}`} initialValue={p[`name`] || ""}>
                   <Input />
                 </Form.Item>
-                <Form.Item label="素材标签" name={`tags_${index + 1}`}>
-                  <Input />
+                <Form.Item label="素材标签" name={`tags_${index + 1}`} initialValue={p[`tags`] ? p[`tags`].split(',') : []}>
+                  <Select mode="tags" style={{ width: '100%' }}>
+                  </Select>
                 </Form.Item>
-                <Form.Item label="素材分类" name={`classifyId_${index + 1}`}>
+                <Form.Item label="素材分类" name={`classifyId_${index + 1}`} initialValue={p[`classifyId`] || []}>
                   <TreeSelect
                     treeData={goodTreeData}
                     allowClear
+                    labelInValue
                     treeDefaultExpandAll
                   />
                 </Form.Item>
-                <Form.Item label="所属菜单" name={`NavigationId_${index + 1}`}>
+                <Form.Item label="所属菜单" name={`navigationId${index + 1}`} initialValue={p[`navigationId`] || []}>
                   <TreeSelect
                     treeData={navTreeData}
                     allowClear
+                    labelInValue
                     treeDefaultExpandAll
                   />
                 </Form.Item>
-                <Form.Item label="是否免费" name={`classifyId_${index + 1}`}>
+                <Form.Item label="是否免费" name={`isOriginal_${index + 1}`} initialValue={p[`isOriginal`] ? 1 : 0}>
                   <Radio.Group options={[{ label: "否", value: 0 }, { label: "是", value: 1 }]} />
                 </Form.Item>
-                <Form.Item label="素材作者" name={`author_${index + 1}`}>
+                <Form.Item label="素材作者" name={`author_${index + 1}`} initialValue={p[`author`] || ""}>
                   <Select >
                     {memberList.map(p =>
                       <Option value={p.id}>{p.name}</Option>)}

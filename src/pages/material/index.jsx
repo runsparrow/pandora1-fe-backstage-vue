@@ -25,29 +25,42 @@ const index = ({ dispatch }) => {
   }, [])
 
   useEffect(() => {
-    console.log("selectItem", selectItem)
     return () => { }
   }, [selectItem])
 
-  const getmaterialList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
+  const getmaterialList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}, isImage = true) => {
     dispatch({
       type: "material/getList",
       payload: {
-        keyWord: "",
+        keyWord: `^isImage=${isImage}`,
         page: `${page.pageNum}^${page.pageSize}`,
         date: "",
         sort: "",
         status: []
       }
     }).then(res => {
-      console.log("getList", res)
-      setList(res)
+      if (List.length > 0) {
+        if (page.pageNum == 1) {
+          setList(res)
+        } else {
+          setList([].concat(List, res))
+        }
+      }
+      else
+        setList(res)
     })
+  }
 
+  const changeTabs = (key) => {
+    setTabkey(key)
+    if (key == 1) {
+      getmaterialList({ pageNum: 1, pageSize: 20 }, {}, true)
+    } else {
+      getmaterialList({ pageNum: 1, pageSize: 20 }, {}, false)
+    }
   }
 
   const getscrollbarheight = (e) => {
-    console.log('aaaa')
     if (List.length > 0) {
       if (countList.length == 0) {
         setCountList([{ number: 1, height: 0 }])
@@ -57,7 +70,7 @@ const index = ({ dispatch }) => {
         let materialList = document.getElementById("materialList")
         if (materialList.offsetHeight - (e.target.scrollHeight - e.target.scrollTop) > 1) {
           if (!countList.some(p => p.height == e.target.scrollHeight)) {
-            getmaterialList({ page: count + 1 })
+            getmaterialList({ pageNum: count + 1, pageSize: 20 })
             setCountList([].concat(countList, { number: count + 1, height: e.target.scrollHeight }))
             setScrollHeight(count + 1)
           }
@@ -77,6 +90,7 @@ const index = ({ dispatch }) => {
   const onClose = () => {
     setVisible(false)
     setUploadVisible(false)
+    getmaterialList()
   }
 
   const batchExport = () => {
@@ -99,6 +113,9 @@ const index = ({ dispatch }) => {
     dispatch({
       type: "material/batchDel",
       payload: selectItem
+    }).then(res => {
+      setList([])
+      getmaterialList()
     })
   }
 
@@ -106,7 +123,7 @@ const index = ({ dispatch }) => {
     <PageContainer title=" "
       tabList={[{ key: "1", tab: "图片" }, { key: "2", tab: "视频" }]}
       tabActiveKey={tabkey}
-      onTabChange={(key) => setTabkey(key)}>
+      onTabChange={changeTabs}>
       <Card bodyStyle={{ padding: "20px" }}>
         <div style={{ marginBottom: "20px" }}>
           <Button style={{ marginRight: "10px" }} type="primary" onClick={batchExport}>批量导入</Button>
@@ -125,7 +142,7 @@ const index = ({ dispatch }) => {
       {
         uploadVisible ? <BigUpload onClose={onClose} /> : null
       }
-    </PageContainer>
+    </PageContainer >
   )
 }
 
