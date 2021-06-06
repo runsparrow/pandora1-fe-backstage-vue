@@ -51,6 +51,7 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.goods': '商品管理',
   'menu.order': '订单管理',
+  'menu.recharge': '充值管理',
   'menu.dictionary': '字典管理',
   'menu.article': '资讯管理',
   'menu.article.my-article': '资讯列表',

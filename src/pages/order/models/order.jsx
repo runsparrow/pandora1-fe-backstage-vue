@@ -8,9 +8,9 @@ export default {
   effects: {
     *getList ({ payload }, { call, put }) {
       const response = yield call(getList, payload);
-      if (response.result == '0') {
+      if (response.result) {
         return {
-          data: response.row,
+          data: response.rows,
           total: response.total,
           success: true
         }

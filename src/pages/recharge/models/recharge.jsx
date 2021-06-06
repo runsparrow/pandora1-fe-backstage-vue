@@ -1,8 +1,8 @@
 import { message } from 'antd';
-import { getList } from '../services/serial';
+import { getList } from '../services/recharge';
 
 export default {
-  namespace: 'serial',
+  namespace: 'recharge',
   state: {
   },
   effects: {

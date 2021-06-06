@@ -55,11 +55,17 @@ export default [
           //   path: '/goods',
           //   component: './goods/index',
           // },
+          // {
+          //   name: 'order',
+          //   icon: 'OrderedListOutlined',
+          //   path: '/order',
+          //   component: './order/index',
+          // },
           {
-            name: 'order',
+            name: 'recharge',
             icon: 'OrderedListOutlined',
-            path: '/order',
-            component: './order/index',
+            path: '/recharge',
+            component: './recharge/index',
           },
           // {
           //   name: "article",

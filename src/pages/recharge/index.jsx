@@ -13,56 +13,30 @@ const index = (props) => {
 
   const [column, setColumn] = useState([
     {
-      title: "订单编号",
-      dataIndex: "orderNo",
+      title: "流水号",
+      dataIndex: "serialNo",
       width: 200,
     },
     {
-      title: "总价",
-      dataIndex: "totalPrice",
+      title: "交易金额",
+      dataIndex: "dealAmount",
       search: false,
       width: 200
     },
     {
-      title: "买家名称",
-      dataIndex: "buyerName",
+      title: "交易时间",
+      dataIndex: "dealDateTime",
       width: 200
     },
     {
-      title: "支付方式",
-      dataIndex: "payMode",
-      width: 200
-    },
-    {
-      title: "支付流水",
-      dataIndex: "serialNo",
-      width: 200
-    },
-    {
-      title: "状态",
-      dataIndex: "statusName",
+      title: "会员名称",
+      dataIndex: "memberName",
       width: 200
     },
     {
       title: "创建时间",
       dataIndex: "createDateTime",
-      search: false,
       width: 200
-    },
-    {
-      title: "下单时间",
-      dataIndex: "orderDateTime",
-      search: false,
-      width: 200
-    },
-    {
-      title: '操作',
-      key: 'action',
-      width: 300,
-      fixed: "right",
-      render: (item) => <div>
-        <a onClick={() => closeOrder(item)}>关闭订单</a>
-      </div>
     },
   ])
 
@@ -80,9 +54,10 @@ const index = (props) => {
       status: []
     }
     return dispatch({
-      type: "order/getList",
+      type: "recharge/getList",
       payload: params
     }).then(res => {
+      console.log("res",res)
       return res
     })
   }
