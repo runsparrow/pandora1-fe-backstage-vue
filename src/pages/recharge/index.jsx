@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider } from 'antd'
@@ -9,6 +9,8 @@ const { Option } = Select
 
 const index = (props) => {
   const { dispatch } = props
+  const uTable = useRef()
+  const [selectedRow, setSelectedRow] = useState([])
   const [scroll, setScroll] = useState({ x: "1000px" })
 
   const [column, setColumn] = useState([
@@ -26,26 +28,29 @@ const index = (props) => {
     {
       title: "交易时间",
       dataIndex: "dealDateTime",
+      search: false,
       width: 200
     },
     {
       title: "会员名称",
       dataIndex: "memberName",
+      search: false,
       width: 200
     },
     {
       title: "创建时间",
       dataIndex: "createDateTime",
+      search: false,
       width: 200
     },
   ])
 
-  const closeOrder = () => {
+  const getList = (page = { pageNum: 0, pageSize: 20 }) => {
+    const { serialNo } = page
+    let keyword = ""
+    if (serialNo)
+      keyword += `^serialNo=${serialNo}`
 
-  }
-
-  const getList = (page = { pageNum: 0, pageSize: 20 }, queryString = {}) => {
-    page.pageNum = page.current ? page.current : page.pageNum ?? 1
     let params = {
       keyWord: "",
       page: `${page.pageNum}^${page.pageSize}`,
@@ -57,14 +62,38 @@ const index = (props) => {
       type: "recharge/getList",
       payload: params
     }).then(res => {
-      console.log("res",res)
+      console.log("res", res)
       return res
     })
   }
+
+  const onSelectedRowsChange = (item) => {
+    setSelectedRow(item)
+  }
+
+  const closerefresh = () => {
+    setSelectedRow([])
+    uTable.current.getFresh()
+  }
+
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSelect={false} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
+        <UniversalTable
+          childRef={uTable}
+          request={
+            async (params = {}) => {
+              let resultparams = { pageNum: params.current, pageSize: params.pageSize, ...params }
+              delete resultparams.current
+              return getList(resultparams)
+            }
+          }
+          toolButtonList={null}
+          onSelectedRowsChange={onSelectedRowsChange}
+          column={column}
+          scroll={scroll}
+          isSearch
+          rowKey="id" />
       </Card>
     </PageContainer>
   )

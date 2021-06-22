@@ -5,7 +5,7 @@ import { history } from 'umi'
 import NewUsers from '../newUsers'
 import { PlusOutlined } from '@ant-design/icons'
 
-const index = ({ selectedRow, type, closerefresh }) => {
+const index = ({ selectedRows, type, closerefresh }) => {
   const [isShow, setIsShow] = useState(false)
 
   const add = () => {

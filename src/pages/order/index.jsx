@@ -9,8 +9,9 @@ const { Option } = Select
 
 const index = (props) => {
   const { dispatch } = props
+  const uTable = useRef()
+  const [selectedRow, setSelectedRow] = useState([])
   const [scroll, setScroll] = useState({ x: "1000px" })
-
   const [column, setColumn] = useState([
     {
       title: "订单编号",
@@ -26,21 +27,25 @@ const index = (props) => {
     {
       title: "买家名称",
       dataIndex: "buyerName",
+      search: false,
       width: 200
     },
     {
       title: "支付方式",
       dataIndex: "payMode",
+      search: false,
       width: 200
     },
     {
       title: "支付流水",
       dataIndex: "serialNo",
+      search: false,
       width: 200
     },
     {
       title: "状态",
       dataIndex: "statusName",
+      search: false,
       width: 200
     },
     {
@@ -66,14 +71,15 @@ const index = (props) => {
     },
   ])
 
-  const closeOrder = () => {
 
-  }
+  const getList = (page = { pageNum: 1, pageSize: 20 }) => {
+    const { orderNo } = page
+    let keyword = ""
+    if (orderNo)
+      keyword += `^orderNo=${orderNo}`
 
-  const getList = (page = { pageNum: 0, pageSize: 20 }, queryString = {}) => {
-    page.pageNum = page.current ? page.current : page.pageNum ?? 1
     let params = {
-      keyWord: "",
+      keyWord: keyword,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: "",
@@ -86,10 +92,34 @@ const index = (props) => {
       return res
     })
   }
+
+  const onSelectedRowsChange = (item) => {
+    setSelectedRow(item)
+  }
+
+  const closerefresh = () => {
+    setSelectedRow([])
+    uTable.current.getFresh()
+  }
+
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSelect={false} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
+        <UniversalTable
+          childRef={uTable}
+          request={
+            async (params = {}) => {
+              let resultparams = { pageNum: params.current, pageSize: params.pageSize, ...params }
+              delete resultparams.current
+              return getList(resultparams)
+            }
+          }
+          toolButtonList={null}
+          onSelectedRowsChange={onSelectedRowsChange}
+          column={column}
+          scroll={scroll}
+          isSearch
+          rowKey="id" />
       </Card>
     </PageContainer>
   )

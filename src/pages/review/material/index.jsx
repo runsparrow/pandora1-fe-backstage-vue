@@ -11,7 +11,8 @@ const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
-  const childRef = useRef()
+  const uTable = useRef()
+  const [selectedRow, setSelectedRow] = useState([])
   const [scroll, setScroll] = useState({ x: "1000px" })
   const [column, setColumn] = useState([
     {
@@ -39,6 +40,7 @@ const index = (props) => {
     {
       title: "状态",
       dataIndex: "statusName",
+      search: false,
       width: 200
     },
     {
@@ -65,8 +67,7 @@ const index = (props) => {
           type: "material/review",
           payload: { entity: { id: item.id }, statusKey: "cms.goods.pass" }
         }).then(res => {
-          console.log("asdas", childRef.current)
-          childRef.current.getFresh()
+          closerefresh()
         })
       },
       onCancel () {
@@ -74,17 +75,22 @@ const index = (props) => {
           type: "material/review",
           payload: { entity: { id: item.id }, statusKey: "cms.goods.close" }
         }).then(res => {
-          //console.log("asdas", childRef.current)
-          childRef.current.getFresh()
+          closerefresh()
         })
       },
     });
   }
 
-  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
-    page.pageNum = page.current ? page.current : page.pageNum ?? 1
+  const getList = (page = { pageNum: 1, pageSize: 20 }) => {
+    const { goodsNo, name } = page
+    let keyword = ""
+    if (goodsNo)
+      keyword += `^goodsNo=${goodsNo}`
+    if (name)
+      keyword += `^name=${name}`
+
     let params = {
-      keyWord: "",
+      keyWord: keyword,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: "",
@@ -98,9 +104,32 @@ const index = (props) => {
     })
   }
 
+  const onSelectedRowsChange = (item) => {
+    setSelectedRow(item)
+  }
+
+  const closerefresh = () => {
+    setSelectedRow([])
+    uTable.current.getFresh()
+  }
+
   return (
     <Card style={{ marginTop: "20px" }}>
-      <UniversalTable childRef={childRef} column={column} scroll={scroll} isSelect={false} isSearch={true} getList={getList} type="c1" ActionList={null}></UniversalTable>
+      <UniversalTable
+        childRef={uTable}
+        request={
+          async (params = {}) => {
+            let resultparams = { pageNum: params.current, pageSize: params.pageSize, ...params }
+            delete resultparams.current
+            return getList(resultparams)
+          }
+        }
+        toolButtonList={null}
+        onSelectedRowsChange={onSelectedRowsChange}
+        column={column}
+        scroll={scroll}
+        isSearch
+        rowKey="id" />
     </Card>
   )
 }

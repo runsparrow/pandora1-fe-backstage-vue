@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Modal } from 'antd'
@@ -13,8 +13,9 @@ const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
+  const uTable = useRef()
+  const [selectedRow, setSelectedRow] = useState([])
   const [scroll, setScroll] = useState({ x: "1000px" })
-
   const [isShow, setIsShow] = useState(false)
   const [info, setInfo] = useState({})
   const [column, setColumn] = useState([
@@ -28,7 +29,6 @@ const index = (props) => {
       dataIndex: "price",
       search: false,
       width: 200,
-      search: false,
     },
     {
       title: "有效期天数限制",
@@ -48,7 +48,8 @@ const index = (props) => {
     {
       title: "下载限制",
       dataIndex: "downLimit",
-      width: 200
+      width: 200,
+      search: false,
     },
     {
       title: "是否可上传",
@@ -94,8 +95,6 @@ const index = (props) => {
     },
   ])
 
-
-
   const del = (item) => {
     confirm({
       title: '删除操作',
@@ -108,18 +107,13 @@ const index = (props) => {
           type: "memberpower/del",
           payload: { id: item.id }
         }).then(res => {
-          getList()
+          closerefresh()
         })
       },
       onCancel () {
-        getList()
+        closerefresh()
       },
     });
-  }
-
-  const close = () => {
-    setIsShow(false)
-    getList()
   }
 
   const edit = (item) => {
@@ -127,10 +121,14 @@ const index = (props) => {
     setIsShow(true)
   }
 
-  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
-    page.pageNum = page.current ? page.current : page.pageNum ?? 1
+  const getList = (page = { pageNum: 1, pageSize: 20 }) => {
+    const { name } = page
+    let keyword = ""
+    if (name)
+      keyword += `^name=${name}`
+
     let params = {
-      keyWord: "",
+      keyWord: keyword,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: ""
@@ -142,13 +140,38 @@ const index = (props) => {
       return res
     })
   }
+
+  const onSelectedRowsChange = (item) => {
+    setSelectedRow(item)
+  }
+
+  const closerefresh = () => {
+    setIsShow(false)
+    setSelectedRow([])
+    uTable.current.getFresh()
+  }
+
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} getList={getList} type="c1" isSelect={false} ActionList={ActionList}></UniversalTable>
+        <UniversalTable
+          childRef={uTable}
+          request={
+            async (params = {}) => {
+              let resultparams = { pageNum: params.current, pageSize: params.pageSize, ...params }
+              delete resultparams.current
+              return getList(resultparams)
+            }
+          }
+          toolButtonList={null}
+          onSelectedRowsChange={onSelectedRowsChange}
+          column={column}
+          scroll={scroll}
+          isSearch
+          rowKey="id" />
       </Card>
       {
-        isShow ? <NewMember close={close} isNew={false} info={info} /> : null
+        isShow ? <NewMember close={closerefresh} isNew={false} info={info} /> : null
       }
     </PageContainer>
   )

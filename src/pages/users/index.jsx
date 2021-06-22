@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Modal } from 'antd'
@@ -13,6 +13,8 @@ const { confirm } = Modal;
 
 const index = (props) => {
   const { dispatch } = props
+  const uTable = useRef()
+  const [selectedRow, setSelectedRow] = useState([])
   const [scroll, setScroll] = useState({ x: "1000px" })
   const [isShow, setIsShow] = useState(false)
   const [info, setInfo] = useState({})
@@ -70,18 +72,13 @@ const index = (props) => {
           type: "users/del",
           payload: { id: item.id }
         }).then(res => {
-          getList()
+          closerefresh()
         })
       },
       onCancel () {
-        getList()
+        closerefresh()
       },
     });
-  }
-
-  const close = () => {
-    setIsShow(false)
-    getList()
   }
 
   const edit = (item) => {
@@ -89,10 +86,17 @@ const index = (props) => {
     setIsShow(true)
   }
 
-  const getList = (page = { pageNum: 1, pageSize: 20 }, queryString = {}) => {
-    page.pageNum = page.current ? page.current : page.pageNum ?? 1
+  const getList = (page = { pageNum: 1, pageSize: 20 }) => {
+    const { name, mobile } = page
+    let keyword = ""
+    if (name)
+      keyword += `^name=${name}`
+
+    if (mobile)
+      keyword += `^mobile=${mobile}`
+
     let params = {
-      keyWord: "",
+      keyWord: keyword,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: ""
@@ -101,17 +105,41 @@ const index = (props) => {
       type: "users/getList",
       payload: params
     }).then(res => {
-      console.log("getList", res)
       return res
     })
   }
+
+  const onSelectedRowsChange = (item) => {
+    setSelectedRow(item)
+  }
+
+  const closerefresh = () => {
+    setIsShow(false)
+    setSelectedRow([])
+    uTable.current.getFresh()
+  }
+
   return (
     <PageContainer title=" ">
       <Card style={{ marginTop: "20px" }}>
-        <UniversalTable column={column} scroll={scroll} isSearch={true} isSelect={false} getList={getList} type="c1" ActionList={ActionList}></UniversalTable>
+        <UniversalTable
+          childRef={uTable}
+          request={
+            async (params = {}) => {
+              let resultparams = { pageNum: params.current, pageSize: params.pageSize, ...params }
+              delete resultparams.current
+              return getList(resultparams)
+            }
+          }
+          toolButtonList={<ActionList selectedRows={selectedRow} type="res1" closerefresh={closerefresh} />}
+          onSelectedRowsChange={onSelectedRowsChange}
+          column={column}
+          scroll={scroll}
+          isSearch
+          rowKey="id" />
       </Card>
       {
-        isShow ? <NewUsers close={() => close()} isNew={false} info={info} /> : null
+        isShow ? <NewUsers close={closerefresh} isNew={false} info={info} /> : null
       }
     </PageContainer>
   )
