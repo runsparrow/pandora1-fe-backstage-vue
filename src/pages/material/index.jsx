@@ -19,11 +19,17 @@ const index = ({ dispatch }) => {
   const [uploadVisible, setUploadVisible] = useState(false)
   const [selectItem, setSelectItem] = useState([])
   const [queryString, setQueryString] = useState({})
+  const [materialheight, setMaterialheight] = useState("0")
 
   useEffect(() => {
     getmaterialList()
+    getpicheight()
+    window.addEventListener('resize', () => getpicheight())
     return () => { }
   }, [])
+
+
+  //onresize 窗口大小变化事件
 
   const getmaterialList = (page = { pageNum: 1, pageSize: 20 }, queryString = { name: "", classifyId: null, tags: "" }, isImage = true) => {
     let c = queryString["classifyId"] || ""
@@ -83,11 +89,13 @@ const index = ({ dispatch }) => {
     let materialList = document.getElementById("materialList")
     if (materialList) {
       let pch = document.body.clientHeight - materialList.getBoundingClientRect().top - 90;
-      return pch + "px"
+      setMaterialheight(pch + "px")
     }
   }
 
   const onClose = () => {
+    setCountList([])
+    setScrollHeight(1)
     setVisible(false)
     setUploadVisible(false)
     getmaterialList()
@@ -156,7 +164,7 @@ const index = ({ dispatch }) => {
         </div>
         <div id="materialList"
           onScroll={getscrollbarheight}
-          style={{ overflowY: "auto", height: getpicheight(), border: "1px solid #eeeeee" }}>
+          style={{ overflowY: "auto", height: materialheight, border: "1px solid #eeeeee" }}>
           <MaterialList List={List} getSelectItem={(value) => setSelectItem(value)} />
         </div>
       </Card>
