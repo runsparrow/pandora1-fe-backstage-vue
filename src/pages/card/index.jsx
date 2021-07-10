@@ -32,12 +32,26 @@ const index = (props) => {
       title: "状态",
       dataIndex: "statusName",
       search: false,
-    }
+    },
+    {
+      title: "是否已激活",
+      dataIndex: "isActivate",
+      valueEnum: {
+        true: { text: '是' },
+        false: { text: '否' },
+      },
+    },
+    {
+      title: "激活人姓名",
+      dataIndex: "activateName",
+      search: false,
+    },
   ])
 
   const getList = (page = { pageNum: 1, pageSize: 20 }) => {
+    const { isActivate } = page
     let params = {
-      keyWord: "",
+      keyWord: isActivate ? `^isActivate=${isActivate}` : "",
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: ""
