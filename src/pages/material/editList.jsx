@@ -90,10 +90,9 @@ const index = ({ List = [], onClose, dispatch }) => {
     dispatch({
       type: "member/getList",
       payload: {
-        keyWord: "",
+        keyWord: "^isself=true",
         page: `1^9999`,
-        date: "",
-        sort: ""
+        status:[1]
       }
     }).then(res => {
       setMemberList(res.data)
@@ -146,7 +145,7 @@ const index = ({ List = [], onClose, dispatch }) => {
                 <Form.Item label="是否免费" name={`level_${index + 1}`} initialValue={p[`level`] || 0}>
                   <Radio.Group options={[{ label: "否", value: 0 }, { label: "是", value: 1 }]} />
                 </Form.Item>
-                <Form.Item label="素材作者" name={`owner_${index + 1}`} initialValue={p[`ownerId`] && p[`ownerName`] ? { value: p[`ownerId`], label: p[`ownerName`] } : null}>
+                <Form.Item label="素材作者" name={`owner_${index + 1}`} initialValue={p[`ownerId`] && p[`ownerName`] ? { value: p[`ownerId`], label: p[`ownerName`] } : {}}>
                   <Select labelInValue>
                     {memberList.map(p =>
                       <Option value={p.id}>{p.name}</Option>)}

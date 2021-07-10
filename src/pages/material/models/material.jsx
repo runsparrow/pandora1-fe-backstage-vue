@@ -9,7 +9,7 @@ export default {
     *getList ({ payload }, { call, put }) {
       const response = yield call(getList, payload);
       if (response.error == null) {
-        return response.rows
+        return response.rows.map(p => { return { ...p, tags: p.tags ? p.tags.replace(/(^,*)|(,*$)/g, "") : "" } })
       } else {
         return []
       }

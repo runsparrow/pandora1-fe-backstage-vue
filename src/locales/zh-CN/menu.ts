@@ -65,5 +65,7 @@ export default {
   'menu.memberpower': '套餐管理',
   'menu.status': '状态管理',
   'menu.goodsClassify': "商品分类管理",
-  'menu.users': "用户管理"
+  'menu.users': "用户管理",
+  'menu.card': "批量开卡",
+  'menu.down': "下载记录"
 };

@@ -158,6 +158,18 @@ export default [
             component: './goodsClassify/index',
           },
           {
+            name: 'card',
+            icon: 'table',
+            path: '/card',
+            component: './card/index',
+          },
+          {
+            name: 'down',
+            icon: 'table',
+            path: '/down',
+            component: './down/index',
+          },
+          {
             component: '404',
           },
         ],

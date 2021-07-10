@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Modal, Form, Input, Radio, Button, InputNumber } from 'antd'
+import { Form, Input, Radio, Button, Modal, InputNumber } from 'antd'
 import { connect } from 'dva'
 
 const layout = {
@@ -7,38 +7,30 @@ const layout = {
   wrapperCol: { span: 18 },
 };
 
-const index = ({ dispatch, close, isNew = true, info = {} }) => {
+const { TextArea } = Input
+
+const index = ({ dispatch, close }) => {
   const [form] = Form.useForm()
 
-  useEffect(() => {
-    if (Object.keys(info).length > 0) {
-      form.setFieldsValue(info)
-    }
-    return () => { }
-  }, [info])
-
   const submit = () => {
-    form.validateFields().then((values) => {
-      if (isNew) {
-        dispatch({
-          type: "memberpower/add",
-          payload: values
-        }).then(res => {
-          if (res) close()
-        })
-      } else {
-        dispatch({
-          type: "memberpower/edit",
-          payload: { ...info, ...values }
-        }).then(res => {
-          if (res) close()
-        })
+    form.validateFields().then(values => {
+      const { cardQuantity } = values
+      const params = {
+        entity: { ...values },
+        cardQuantity
       }
+      console.log("params", params)
+      dispatch({
+        type: "card/batchCard",
+        payload: params
+      }).then(res => {
+        res && close()
+      })
     })
   }
 
   return <Modal
-    title={isNew ? "新建套餐" : "编辑套餐"}
+    title={"批量开卡"}
     visible={true}
     footer={
       <div>
@@ -48,10 +40,10 @@ const index = ({ dispatch, close, isNew = true, info = {} }) => {
     }
   >
     <Form form={form} {...layout}>
-      <Form.Item label="套餐名称" name="name" rules={[{ required: true, message: '请输入套餐名称!' }]}>
+      <Form.Item label="卡号前缀" name="cardPrefix" rules={[{ required: true, message: '请输入卡号前缀!' }]}>
         <Input />
       </Form.Item>
-      <Form.Item label="价格" name="price" rules={[{ required: true, message: '请输入价格!' }]}>
+      <Form.Item label="开卡数量" name="cardQuantity" rules={[{ required: true, message: '请输入开卡数量!' }]}>
         <InputNumber style={{ width: "100%" }} />
       </Form.Item>
       <Form.Item label="有效期天数限制" name="daysLimit" rules={[{ required: true, message: '请输入有效期天数限制!' }]}>
@@ -75,8 +67,11 @@ const index = ({ dispatch, close, isNew = true, info = {} }) => {
       <Form.Item label="购买限制" name="buyLimit" rules={[{ required: true, message: '请输入购买限制!' }]}>
         <InputNumber style={{ width: "100%" }} />
       </Form.Item>
+      <Form.Item label="备注" name="remark" >
+        <TextArea />
+      </Form.Item>
     </Form>
   </Modal >
 }
 
-export default connect(({ }) => ({}))(index)
+export default connect(() => ({}))(index)
