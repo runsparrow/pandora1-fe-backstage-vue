@@ -43,7 +43,7 @@ const index = (props) => {
     },
     {
       title: "激活人姓名",
-      dataIndex: "activateName",
+      dataIndex: "activateMemberName",
       search: false,
     },
   ])
