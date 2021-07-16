@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Modal, Form, Input, Button, Select, TreeSelect, Radio } from 'antd'
 import { goodTags } from '@utils/enumList'
 import { gettreelist } from '@utils/utils'
+import ReactPlayer from 'react-player'
 import { connect } from 'dva'
 import './editList.less'
 
@@ -23,10 +24,6 @@ const index = ({ List = [], onClose, dispatch }) => {
     getnavtree()
     getmember()
   }, [])
-
-  useEffect(() => {
-    console.log("List", List)
-  }, [List])
 
   const getpicheight = () => {
     let materialList = document.getElementById("materialList")
@@ -117,7 +114,10 @@ const index = ({ List = [], onClose, dispatch }) => {
           List.map((p, index) =>
             <div className="formform" key={index} >
               <div className="imgform">
-                <img src={p.fullUrl} style={{ height: "150px" }} />
+                {
+                  p.isImage? <img src={p.fullUrl} style={{ height: "150px" }} />:
+                  <ReactPlayer width="100%" url={p.fullUrl} controls={true} />
+                }
               </div>
               <div className="editform">
                 <Form.Item label="素材名" name={`name_${index + 1}`} initialValue={p[`name`] || ""}>

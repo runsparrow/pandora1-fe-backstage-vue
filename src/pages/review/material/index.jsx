@@ -4,6 +4,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Modal } from 'antd'
 import { PushpinFilled } from '@ant-design/icons'
 import QueryForm from '@components/QueryForm'
+import ReactPlayer from 'react-player'
 import { connect } from 'dva'
 import { history } from 'umi'
 const { Option } = Select
@@ -14,6 +15,8 @@ const index = (props) => {
   const uTable = useRef()
   const [selectedRow, setSelectedRow] = useState([])
   const [scroll, setScroll] = useState({ x: "1000px" })
+  const [isShow, setIsShow] = useState(false)
+  const [info, setInfo] = useState(null)
   const [column, setColumn] = useState([
     {
       title: "素材编号",
@@ -50,35 +53,32 @@ const index = (props) => {
       width: 200,
       fixed: "right",
       render: (item) => <div>
-        <a onClick={() => review(item)}>审核</a>
+        <a onClick={() => openReview(item)}>审核</a>
       </div>
     },
   ])
 
-  const review = (item) => {
-    confirm({
-      title: '审核操作',
-      icon: <PushpinFilled />,
-      content: '是否审核通过？',
-      okText: "审核通过",
-      cancelText: "审核不通过",
-      onOk () {
-        dispatch({
-          type: "material/review",
-          payload: { entity: { id: item.id }, statusKey: "cms.goods.pass" }
-        }).then(res => {
-          closerefresh()
-        })
-      },
-      onCancel () {
-        dispatch({
-          type: "material/review",
-          payload: { entity: { id: item.id }, statusKey: "cms.goods.close" }
-        }).then(res => {
-          closerefresh()
-        })
-      },
-    });
+  const openReview = (item) => {
+    setInfo(item)
+    setIsShow(true)
+  }
+
+  const review = (item, type) => {
+    if (type == 1) {
+      dispatch({
+        type: "material/review",
+        payload: { entity: { id: item.id }, statusKey: "cms.goods.pass" }
+      }).then(res => {
+        closerefresh()
+      })
+    } else {
+      dispatch({
+        type: "material/review",
+        payload: { entity: { id: item.id }, statusKey: "cms.goods.close" }
+      }).then(res => {
+        closerefresh()
+      })
+    }
   }
 
   const getList = (page = { pageNum: 1, pageSize: 20 }) => {
@@ -109,6 +109,8 @@ const index = (props) => {
   }
 
   const closerefresh = () => {
+    setIsShow(false)
+    setInfo(null)
     setSelectedRow([])
     uTable.current.getFresh()
   }
@@ -130,6 +132,28 @@ const index = (props) => {
         scroll={scroll}
         isSearch
         rowKey="id" />
+      {
+        isShow ? <Modal
+          title="审核"
+          visible={true}
+          onCancel={() => closerefresh()}
+          footer={<div>
+            <Button style={{ marginRight: "10px" }} onClick={() => review(info, 0)}>审核不通过</Button>
+            <Button type="primary" onClick={() => review(info, 1)}>审核通过</Button>
+          </div>}
+        >
+          <div>
+            {
+              info.isImage?<img src={info.fullUrl} style={{ width: "100%" }} />:
+              <ReactPlayer width="100%" url={info.fullUrl} controls={true} />
+            }
+            
+            <div>
+              是否审核通过？
+            </div>
+          </div>
+        </Modal> : null
+      }
     </Card>
   )
 }

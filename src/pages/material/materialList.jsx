@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Card, Modal, Tooltip, Checkbox } from 'antd'
+import ReactPlayer from 'react-player'
 import newface from '@assets/new.png'
 import styles from './index.less'
 import nodata from '@assets/nodata.png'
+import play from '@assets/play.png'
 import { set } from 'lodash'
 
 
@@ -39,7 +41,14 @@ const index = ({ List, getSelectItem, }) => {
                 p.statusValue == 0 ? <img width="20px" height="20px" src={newface}></img> : null
               }
             </div>
-            <div style={{ height: "16em", border: "1px solid #eeeeee" }}><img onClick={() => materialClick(p)} src={p.fullUrl} style={{ width: "100%", height: "100%" }}></img></div>
+            <div style={{ height: "16em", border: "1px solid #eeeeee" }}>
+              {
+                p.isImage ? <img onClick={() => materialClick(p)} src={p.fullUrl} style={{ width: "100%", height: "100%" }}></img> :
+                  // <ReactPlayer width="100%" pip url={info.fullUrl} controls={true} />
+                  <img onClick={() => materialClick(p)} src={play} style={{ width: "100%", height: "100%" }}></img>
+              }
+
+            </div>
             <div style={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
               <div style={{ textAlign: "left" }}>{p.name.length > 15 ? <Tooltip title={p.name}>{p.name.slice(0, 15)}...</Tooltip> : p.name}</div>
             </div>
@@ -49,14 +58,17 @@ const index = ({ List, getSelectItem, }) => {
       {
         visible ? <Modal
           title='预览大图'
-          width='50%'
+          width={info.isImage ? '50%' : "30%"}
           visible={visible}
           onCancel={() => setVisible(false)}
           footer={null}>
-          <div style={{ width: "100%" }}>
-            <p><b>{info.filename}</b></p>
-            <img style={{ width: "100%" }} src={info.fullUrl}></img>
-          </div>
+          {
+            info.isImage ? <div style={{ width: "100%" }}>
+              <p><b>{info.filename}</b></p>
+              <img style={{ width: "100%" }} src={info.fullUrl}></img>
+            </div> : <ReactPlayer width="100%" url={info.fullUrl} controls={true} />
+          }
+
         </Modal>
           : null
       }
