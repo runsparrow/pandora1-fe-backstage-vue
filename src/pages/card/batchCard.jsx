@@ -12,6 +12,10 @@ const { TextArea } = Input
 const index = ({ dispatch, close }) => {
   const [form] = Form.useForm()
 
+  useEffect(() => {
+    form.setFieldsValue({ daysLimit: 365 })
+  }, [])
+
   const submit = () => {
     form.validateFields().then(values => {
       const { cardQuantity } = values
@@ -19,7 +23,6 @@ const index = ({ dispatch, close }) => {
         entity: { ...values },
         cardQuantity
       }
-      console.log("params", params)
       dispatch({
         type: "card/batchCard",
         payload: params
@@ -44,28 +47,28 @@ const index = ({ dispatch, close }) => {
         <Input />
       </Form.Item>
       <Form.Item label="开卡数量" name="cardQuantity" rules={[{ required: true, message: '请输入开卡数量!' }]}>
-        <InputNumber style={{ width: "100%" }} />
+        <InputNumber style={{ width: "100%" }} min={0} step={1} />
       </Form.Item>
       <Form.Item label="有效期天数限制" name="daysLimit" rules={[{ required: true, message: '请输入有效期天数限制!' }]}>
-        <InputNumber style={{ width: "100%" }} />
+        <InputNumber style={{ width: "100%" }} min={0} step={1} />
       </Form.Item>
-      <Form.Item label="是否可下载" name="isDown" rules={[{ required: true, message: '请选择是否可下载!' }]}>
+      <Form.Item label="是否可下载" name="isDown" >
         <Radio.Group options={[{ label: "是", value: true }, { label: "否", value: false }]} />
       </Form.Item>
-      <Form.Item label="下载限制" name="downLimit" rules={[{ required: true, message: '请输入下载限制!' }]}>
-        <InputNumber style={{ width: "100%" }} />
+      <Form.Item label="下载限制" name="downLimit" >
+        <InputNumber style={{ width: "100%" }} min={0} step={1} />
       </Form.Item>
-      <Form.Item label="是否可上传" name="isUpload" rules={[{ required: true, message: '请选择是否可上传!' }]}>
+      <Form.Item label="是否可上传" name="isUpload" >
         <Radio.Group options={[{ label: "是", value: true }, { label: "否", value: false }]} />
       </Form.Item>
-      <Form.Item label="上传限制" name="uploadLimit" rules={[{ required: true, message: '请输入上传限制!' }]}>
-        <InputNumber style={{ width: "100%" }} />
+      <Form.Item label="上传限制" name="uploadLimit">
+        <InputNumber style={{ width: "100%" }} min={0} step={1} />
       </Form.Item>
-      <Form.Item label="是否可购买" name="isBuy" rules={[{ required: true, message: '请选择是否可购买!' }]}>
+      <Form.Item label="是否可购买" name="isBuy">
         <Radio.Group options={[{ label: "是", value: true }, { label: "否", value: false }]} />
       </Form.Item>
-      <Form.Item label="购买限制" name="buyLimit" rules={[{ required: true, message: '请输入购买限制!' }]}>
-        <InputNumber style={{ width: "100%" }} />
+      <Form.Item label="购买限制" name="buyLimit" >
+        <InputNumber style={{ width: "100%" }} min={0} step={1} />
       </Form.Item>
       <Form.Item label="备注" name="remark" >
         <TextArea />

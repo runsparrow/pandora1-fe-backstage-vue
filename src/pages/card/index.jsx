@@ -29,6 +29,11 @@ const index = (props) => {
       search: false,
     },
     {
+      title: "有效天数",
+      dataIndex: "daysLimit",
+      search: false,
+    },
+    {
       title: "状态",
       dataIndex: "statusName",
       search: false,
