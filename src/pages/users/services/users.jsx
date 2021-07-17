@@ -12,8 +12,8 @@ export async function add (params) {
   return request(`${APIHOSTNAME}/AVM/User/Create/ToStatus`, {
     method: "POST",
     data: {
-      ...params,
-      key: "avm.user.open"
+      entity: params,
+      statusKey: "avm.user.open"
     }
   })
 }
