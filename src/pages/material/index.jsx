@@ -58,6 +58,7 @@ const index = ({ dispatch }) => {
   }
 
   const changeTabs = (key) => {
+    console.log("key")
     setTabkey(key)
     if (key == 1) {
       getmaterialList({ pageNum: 1, pageSize: 20 }, {}, true)
@@ -76,7 +77,7 @@ const index = ({ dispatch }) => {
         let materialList = document.getElementById("materialList")
         if (materialList.offsetHeight - (e.target.scrollHeight - e.target.scrollTop) > 1) {
           if (!countList.some(p => p.height == e.target.scrollHeight)) {
-            getmaterialList({ pageNum: count + 1, pageSize: 20 })
+            getmaterialList({ pageNum: count + 1, pageSize: 20 }, {}, tabkey == 1 ? true : false)
             setCountList([].concat(countList, { number: count + 1, height: e.target.scrollHeight }))
             setScrollHeight(count + 1)
           }
@@ -98,7 +99,7 @@ const index = ({ dispatch }) => {
     setScrollHeight(1)
     setVisible(false)
     setUploadVisible(false)
-    getmaterialList()
+    getmaterialList({ pageNum: 1, pageSize: 20 }, {}, tabkey == 1 ? true : false)
     clearselect()
   }
 
