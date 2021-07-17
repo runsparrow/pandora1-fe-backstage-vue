@@ -126,6 +126,7 @@ const index = (props) => {
             return getList(resultparams)
           }
         }
+        isSelect={false}
         toolButtonList={null}
         onSelectedRowsChange={onSelectedRowsChange}
         column={column}
@@ -144,10 +145,10 @@ const index = (props) => {
         >
           <div>
             {
-              info.isImage?<img src={info.fullUrl} style={{ width: "100%" }} />:
-              <ReactPlayer width="100%" url={info.fullUrl} controls={true} />
+              info.isImage ? <img src={info.fullUrl} style={{ width: "100%" }} /> :
+                <ReactPlayer width="100%" url={info.fullUrl} controls={true} />
             }
-            
+
             <div>
               是否审核通过？
             </div>

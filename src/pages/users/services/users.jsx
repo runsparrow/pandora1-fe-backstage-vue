@@ -9,9 +9,12 @@ export async function getList (params) {
 }
 
 export async function add (params) {
-  return request(`${APIHOSTNAME}/AVM/User/Create/Single`, {
+  return request(`${APIHOSTNAME}/AVM/User/Create/ToStatus`, {
     method: "POST",
-    data: params
+    data: {
+      ...params,
+      key: "avm.user.open"
+    }
   })
 }
 

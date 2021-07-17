@@ -153,6 +153,7 @@ const index = (props) => {
             return getList(resultparams)
           }
         }
+        isSelect={false}
         toolButtonList={null}
         onSelectedRowsChange={onSelectedRowsChange}
         column={column}
