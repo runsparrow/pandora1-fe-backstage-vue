@@ -32,12 +32,26 @@ const index = (props) => {
       title: "下载时间",
       dataIndex: "downDateTime",
       search: false
+    },
+    {
+      title: "作者Id",
+      dataIndex: "ownerId",
+    },
+    {
+      title: "作者名称",
+      dataIndex: "ownerName",
     }
   ])
 
   const getList = (page = { pageNum: 1, pageSize: 20 }) => {
+    const { ownerId, ownerName } = page
+    let keyword = ""
+    if (ownerId)
+      keyword += `^ownerId=${ownerId}`
+    if (ownerName)
+      keyword += `^ownerName=${ownerName}`
     let params = {
-      keyWord: "",
+      keyWord: keyword,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: ""
