@@ -47,19 +47,19 @@ const index = ({ dispatch }) => {
     }).then(res => {
       if (List.length > 0) {
         if (page.pageNum == 1) {
-          setList(res)
+          setList(res.map(p => { return { ...p, check: false } }))
         } else {
-          setList([].concat(List, res))
+          setList([].concat(List, res).map(p => { return { ...p, check: false } }))
         }
       }
       else
-        setList(res)
+        setList(res.map(p => { return { ...p, check: false } }))
     })
   }
 
   const changeTabs = (key) => {
-    console.log("key")
     setTabkey(key)
+    setSelectItem([])
     if (key == 1) {
       getmaterialList({ pageNum: 1, pageSize: 20 }, {}, true)
     } else {
@@ -166,7 +166,7 @@ const index = ({ dispatch }) => {
         <div id="materialList"
           onScroll={getscrollbarheight}
           style={{ overflowY: "auto", height: materialheight, border: "1px solid #eeeeee" }}>
-          <MaterialList List={List} getSelectItem={(value) => setSelectItem(value)} />
+          <MaterialList List={List} tabkey={tabkey} getSelectItem={(value) => setSelectItem(value)} />
         </div>
       </Card>
       {

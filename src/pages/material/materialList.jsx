@@ -5,15 +5,17 @@ import newface from '@assets/new.png'
 import styles from './index.less'
 import nodata from '@assets/nodata.png'
 import play from '@assets/play.png'
-import { set } from 'lodash'
 
 
-const index = ({ List, getSelectItem, }) => {
+const index = ({ List, getSelectItem, tabkey }) => {
   const [visible, setVisible] = useState(false)
   const [info, setInfo] = useState({})
   const [selectItem, setSelectItem] = useState([])
 
-
+  useEffect(() => {
+    setSelectItem([])
+    getSelectItem([])
+  }, [tabkey])
 
   const materialClick = (item) => {
     setInfo(item)
@@ -21,6 +23,7 @@ const index = ({ List, getSelectItem, }) => {
   }
 
   const onCheckChange = (e, item) => {
+    item.check = e.target.checked
     if (e.target.checked) {
       setSelectItem([].concat(selectItem, item))
       getSelectItem([].concat(selectItem, item))
@@ -36,7 +39,7 @@ const index = ({ List, getSelectItem, }) => {
         List.length > 0 ? List.map((p, index) =>
           <Card hoverable bodyStyle={{ padding: "10px", height: "300px", }} style={{ width: "220px", margin: "5px 0 0 0" }} key={index}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-              <Checkbox onChange={(e) => onCheckChange(e, p)} />
+              <Checkbox onChange={(e) => onCheckChange(e, p)} checked={p.check} />
               {
                 p.statusValue == 0 ? <img width="20px" height="20px" src={newface}></img> : null
               }
