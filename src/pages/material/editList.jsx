@@ -20,6 +20,10 @@ const index = ({ List = [], onClose, dispatch }) => {
   const [memberList, setMemberList] = useState([])
 
   useEffect(() => {
+    console.log("List", List)
+  }, [List])
+
+  useEffect(() => {
     getgoodtree()
     getnavtree()
     getmember()
@@ -43,7 +47,7 @@ const index = ({ List = [], onClose, dispatch }) => {
           tags: values[`tags_${i}`].length > 0 ? `,${values[`tags_${i}`].join(",")},` : "",
           ownerId: values[`owner_${i}`] ? values[`owner_${i}`].value : List[i].ownerId,
           ownerName: values[`owner_${i}`] ? values[`owner_${i}`].label : List[i].ownerName,
-          level: values[`level_${i}`],
+          level: Number(values[`level_${i}`]),
           classifyId: values[`classify_${i}`] ? values[`classify_${i}`].value : List[i].classifyId,
           classifyName: values[`classify_${i}`] ? values[`classify_${i}`].label : List[i].classifyName,
           navigationId: values[`navigation_${i}`] ? values[`navigation_${i}`].value : List[i].navigationId,
@@ -89,21 +93,24 @@ const index = ({ List = [], onClose, dispatch }) => {
       payload: {
         keyWord: "^isself=true",
         page: `1^9999`,
-        status:[1]
+        status: [1]
       }
     }).then(res => {
       setMemberList(res.data)
     })
   }
 
-
+  const close = () => {
+    form.resetFields()
+    onClose()
+  }
 
   return (
     <Modal
       title='批量编辑'
       width='60%'
       visible={true}
-      onCancel={() => onClose()}
+      onCancel={close}
       onOk={onFinish}
       cancelText="取消"
       okText="保存"
@@ -115,8 +122,8 @@ const index = ({ List = [], onClose, dispatch }) => {
             <div className="formform" key={index} >
               <div className="imgform">
                 {
-                  p.isImage? <img src={p.fullUrl} style={{ height: "150px" }} />:
-                  <ReactPlayer width="100%" url={p.fullUrl} controls={true} />
+                  p.isImage ? <img src={p.fullUrl} style={{ height: "150px" }} /> :
+                    <ReactPlayer width="100%" url={p.fullUrl} controls={true} />
                 }
               </div>
               <div className="editform">

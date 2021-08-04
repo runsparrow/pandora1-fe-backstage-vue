@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect,useImperativeHandle } from 'react'
 import { Card, Modal, Tooltip, Checkbox } from 'antd'
 import ReactPlayer from 'react-player'
 import newface from '@assets/new.png'
@@ -7,7 +7,7 @@ import nodata from '@assets/nodata.png'
 import play from '@assets/play.png'
 
 
-const index = ({ List, getSelectItem, tabkey }) => {
+const index = ({ List, getSelectItem, tabkey, childRef }) => {
   const [visible, setVisible] = useState(false)
   const [info, setInfo] = useState({})
   const [selectItem, setSelectItem] = useState([])
@@ -22,11 +22,17 @@ const index = ({ List, getSelectItem, tabkey }) => {
     setVisible(true)
   }
 
+  useImperativeHandle(childRef, () => ({
+    clearList: () => setSelectItem([])
+  }));
+
+
   const onCheckChange = (e, item) => {
     item.check = e.target.checked
     if (e.target.checked) {
-      setSelectItem([].concat(selectItem, item))
-      getSelectItem([].concat(selectItem, item))
+      let res = [].concat(selectItem, item)
+      setSelectItem(res)
+      getSelectItem(res)
     } else {
       setSelectItem(selectItem.filter(p => p.id != item.id))
       getSelectItem(selectItem.filter(p => p.id != item.id))

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import UniversalTable from '@components/UniversalTable'
 import { PageContainer } from '@ant-design/pro-layout';
 import { Card, Table, Button, Select, Divider, Form, message } from 'antd'
@@ -10,6 +10,7 @@ import BigUpload from './bigUpload'
 import EditList from './editList'
 
 const index = ({ dispatch }) => {
+  const mRef = useRef()
   const [tabkey, setTabkey] = useState("1")
   const [List, setList] = useState([])
   const [countList, setCountList] = useState([])
@@ -96,6 +97,8 @@ const index = ({ dispatch }) => {
 
   const onClose = () => {
     setCountList([])
+    mRef.current.clearList()
+    setSelectItem([])
     setScrollHeight(1)
     setVisible(false)
     setUploadVisible(false)
@@ -166,7 +169,7 @@ const index = ({ dispatch }) => {
         <div id="materialList"
           onScroll={getscrollbarheight}
           style={{ overflowY: "auto", height: materialheight, border: "1px solid #eeeeee" }}>
-          <MaterialList List={List} tabkey={tabkey} getSelectItem={(value) => setSelectItem(value)} />
+          <MaterialList childRef={mRef} List={List} tabkey={tabkey} getSelectItem={(value) => setSelectItem(value)} />
         </div>
       </Card>
       {
