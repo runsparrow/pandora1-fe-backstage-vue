@@ -149,7 +149,7 @@ const index = ({ List = [], onClose, dispatch }) => {
                     treeDefaultExpandAll
                   />
                 </Form.Item>
-                <Form.Item label="是否免费" name={`level_${index + 1}`} initialValue={p[`level`] || 0}>
+                <Form.Item label="是否收费" name={`level_${index + 1}`} initialValue={p[`level`] || 0}>
                   <Radio.Group options={[{ label: "否", value: 0 }, { label: "是", value: 1 }]} />
                 </Form.Item>
                 <Form.Item label="素材作者" name={`owner_${index + 1}`} initialValue={p[`ownerId`] && p[`ownerName`] ? { value: p[`ownerId`], label: p[`ownerName`] } : {}}>
