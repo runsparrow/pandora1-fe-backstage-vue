@@ -40,6 +40,7 @@ const index = ({ dispatch, close, isNew = true, info = {} }) => {
   return <Modal
     title={isNew ? "新建用户" : "编辑用户"}
     visible={true}
+    onCancel={() => close()}
     footer={
       <div>
         <Button style={{ marginRight: "10px" }} onClick={() => close()}>取消</Button>

@@ -53,6 +53,7 @@ export default {
   'menu.order': '订单管理',
   'menu.recharge': '充值管理',
   'menu.dictionary': '字典管理',
+  'menu.hospital': '医院管理',
   'menu.article': '资讯管理',
   'menu.article.my-article': '资讯列表',
   'menu.article.new-article': '新增资讯',

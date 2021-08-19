@@ -35,6 +35,7 @@ const index = ({ dispatch, close }) => {
   return <Modal
     title={"批量开卡"}
     visible={true}
+    onCancel={() => close()}
     footer={
       <div>
         <Button style={{ marginRight: "10px" }} onClick={() => close()}>取消</Button>

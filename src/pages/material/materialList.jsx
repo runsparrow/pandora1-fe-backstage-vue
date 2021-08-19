@@ -1,4 +1,4 @@
-import { useState, useEffect,useImperativeHandle } from 'react'
+import { useState, useEffect, useImperativeHandle } from 'react'
 import { Card, Modal, Tooltip, Checkbox } from 'antd'
 import ReactPlayer from 'react-player'
 import newface from '@assets/new.png'
@@ -39,11 +39,23 @@ const index = ({ List, getSelectItem, tabkey, childRef }) => {
     }
   }
 
+  const clickCard = (item) => {
+    item.check = !item.check
+    if (!item.check) {
+      let res = [].concat(selectItem, item)
+      setSelectItem(res)
+      getSelectItem(res)
+    } else {
+      setSelectItem(selectItem.filter(p => p.id != item.id))
+      getSelectItem(selectItem.filter(p => p.id != item.id))
+    }
+  }
+
   return (
     <div className={styles.piclistflex}>
       {
         List.length > 0 ? List.map((p, index) =>
-          <Card hoverable bodyStyle={{ padding: "10px", height: "300px", }} style={{ width: "220px", margin: "5px 0 0 0" }} key={index}>
+          <Card hoverable bodyStyle={{ padding: "10px", height: "300px", }} onClick={() => clickCard(p)} style={{ width: "220px", margin: "5px 0 0 0", border: p.check ? "2px solid #aaaaaa" : null }} key={index}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
               <Checkbox onChange={(e) => onCheckChange(e, p)} checked={p.check} />
               {

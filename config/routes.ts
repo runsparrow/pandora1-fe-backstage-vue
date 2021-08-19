@@ -104,6 +104,12 @@ export default [
             component: './dictionary/index',
           },
           {
+            name: 'hospital',
+            icon: 'BookOutlined',
+            path: '/hospital',
+            component: './hospital/index',
+          },
+          {
             name: 'material',
             icon: 'DisconnectOutlined',
             path: '/material',
