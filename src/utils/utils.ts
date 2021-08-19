@@ -1,4 +1,5 @@
 import { parse } from 'querystring';
+import provinceCity from '@utils/city'
 
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/;
@@ -31,4 +32,21 @@ export const gettreelist = (item) => {
     newtreelist.push({ title: i.title, key: i.id, children: gettreelist(i.children), row: i.row })
   }
   return newtreelist
+}
+
+export const getAreaName = (code) => {
+  let name = ""
+  function getName(data) {
+    for (let i of data) {
+      if (i.value == code) {
+        return i.label
+      } else {
+        if (i.children) {
+          getName(i.children)
+        }
+      }
+    }
+  }
+  name = getName(provinceCity)
+  return name
 }

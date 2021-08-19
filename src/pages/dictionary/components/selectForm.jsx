@@ -32,18 +32,18 @@ const index = ({ info, dispatch, refresh }) => {
       initialValues={formform}
       onFinish={onFinish}
     >
-      <Form.Item label="name" name="name"><Input /></Form.Item>
-      <Form.Item label="key" name="key"><Input /></Form.Item>
-      <Form.Item label="value" name="value"><Input /></Form.Item>
-      <Form.Item label="desc" name="desc"><Input /></Form.Item>
+      <Form.Item label="名称" name="name"><Input /></Form.Item>
+      <Form.Item label="键" name="key"><Input /></Form.Item>
+      <Form.Item label="值" name="value"><Input /></Form.Item>
+      <Form.Item label="备注" name="desc"><Input /></Form.Item>
       <Form.Item>
         <div style={{ margin: "20px 0", textAlign: "right" }}>
           <Button style={{ marginRight: "10px" }}>
             取消
-            </Button>
+          </Button>
           <Button type="primary" htmlType="submit">
             提交
-            </Button>
+          </Button>
         </div>
       </Form.Item>
     </Form>
