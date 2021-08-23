@@ -70,7 +70,7 @@ const index = (props) => {
   }
 
   const onPageChange = (page, PageSize) => {
-    getnavtree("", page, PageSize)
+    getnavtree(searchValue, page, PageSize)
   }
 
   const searchInput = () => {
