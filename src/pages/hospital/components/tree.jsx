@@ -7,13 +7,13 @@ const { Search } = Input
 const { TreeNode } = Tree
 
 const index = (props) => {
-  const { treeData, dispatch, selectNode, getNavList } = props
+  const { treeData, dispatch, selectNode, getNavList, pagination, getloaddata } = props
   const [isShow, setIsShow] = useState(false)
   const [form] = Form.useForm();
   const [info, setInfo] = useState({})
 
   const onSelect = (keys, item) => {
-    selectNode(item.node.row)
+    selectNode(item.node)
   }
 
   const addNode = (item) => {
@@ -57,12 +57,19 @@ const index = (props) => {
     setIsShow(false)
     setInfo({})
   }
+  const onLoadData = (node) => {
+    return new Promise((resolve, reject) => {
+      getloaddata(node)
+      resolve()
+    })
+  }
 
   return (<div>
     <Tree
       onSelect={onSelect}
       checkable={false}
       treeData={treeData}
+      loadData={onLoadData}
       titleRender={res => {
         return <div>{res.title}
           <PlusOutlined style={{ margin: "0 10px" }} onClick={() => addNode(res)} />
@@ -71,6 +78,9 @@ const index = (props) => {
           }
         </div>
       }} />
+    {
+      pagination()
+    }
     {
       isShow ? <Modal
         title="新建字典"

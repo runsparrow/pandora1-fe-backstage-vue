@@ -25,11 +25,19 @@ export const isAntDesignProOrDev = (): boolean => {
 export const getPageQuery = () => parse(window.location.href.split('?')[1]);
 
 
-export const gettreelist = (item) => {
+export const gettreelist = (item = []) => {
   // title key children
   let newtreelist = []
   for (let i of item) {
     newtreelist.push({ title: i.title, key: i.id, children: gettreelist(i.children), row: i.row })
+  }
+  return newtreelist
+}
+
+export const hospitaltree = (item = []) => {
+  let newtreelist = []
+  for (let i of item) {
+    newtreelist.push({ ...i, title: i.name, key: i.id, isLeaf: !i.isLeaf })
   }
   return newtreelist
 }

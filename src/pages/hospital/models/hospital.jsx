@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getstatustree, editNode, delNode, addNode, getGoodsTree } from '../services/status';
+import { getstatustree, editNode, delNode, addNode, getGoodsTree } from '../services/hospital';
 
 export default {
   namespace: 'hospital',
@@ -9,7 +9,7 @@ export default {
     *getstatustree ({ payload }, { call, put }) {
       const response = yield call(getstatustree, payload);
       if (response.error == null) {
-        return response.tree
+        return response
       } else {
         return []
       }

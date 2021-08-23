@@ -3,7 +3,10 @@ import request from '@utils/request';
 
 export async function getstatustree (params) {
   const { id } = params
-  return request(`${APIHOSTNAME}/ASM/Hospital/Tree/SubsetById/${id}`)
+  return request(`${APIHOSTNAME}/ASM/Hospital/Query/Page`, {
+    method: "POST",
+    data: params
+  })
 }
 
 export async function getGoodsTree (params) {
