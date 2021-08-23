@@ -29,6 +29,7 @@ const index = (props) => {
       payload: {
         keyword: `${name}^pid=-1`,
         page: `${page}^${pageSize}`,
+        status: [1]
       }
     }).then(res => {
       setPage(page)
@@ -44,6 +45,7 @@ const index = (props) => {
       payload: {
         keyword: `^pid=${item.key}`,
         page: `${1}^${999}`,
+        status: [1]
       }
     }).then(res => {
       setTreeData(treeData.map(p => { return { ...p, children: p.id == item.id ? hospitaltree(res.rows) : [] } }))
