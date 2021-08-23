@@ -95,7 +95,7 @@ const index = (props) => {
           <NavTree treeData={treeData} searchInput={searchInput} pagination={pagination} getloaddata={getloaddata} selectNode={selectNode} getNavList={getNavList}></NavTree>
         </Card>
         <Card className="card-table" title="状态详情">
-          <SelectForm info={info} refresh={getnavtree} />
+          <SelectForm info={info} refresh={() => getnavtree(searchValue, page, pageSize)} />
         </Card>
       </div>
     </PageContainer>
