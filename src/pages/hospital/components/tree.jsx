@@ -7,7 +7,7 @@ const { Search } = Input
 const { TreeNode } = Tree
 
 const index = (props) => {
-  const { treeData, dispatch, selectNode, getNavList, pagination, getloaddata } = props
+  const { treeData, dispatch, selectNode, getNavList, pagination, getloaddata, searchInput } = props
   const [isShow, setIsShow] = useState(false)
   const [form] = Form.useForm();
   const [info, setInfo] = useState({})
@@ -65,6 +65,7 @@ const index = (props) => {
   }
 
   return (<div>
+    {searchInput()}
     <Tree
       onSelect={onSelect}
       checkable={false}

@@ -51,7 +51,7 @@ const index = ({ info, dispatch, refresh }) => {
       <Form.Item label="键" name="key"><Input /></Form.Item>
       <Form.Item label="值" name="value"><Input /></Form.Item>
       <Form.Item label="地区" name="area">
-        <Cascader options={provinceCity} />
+        <Cascader options={provinceCity} placeholder="" />
       </Form.Item>
       <Form.Item label="电话" name="phone">
         <Input />

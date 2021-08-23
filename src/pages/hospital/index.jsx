@@ -15,6 +15,7 @@ const index = (props) => {
   const [total, setTotal] = useState(0)
   const [pageSize, setPageSize] = useState(20)
   const [page, setPage] = useState(1)
+  const [searchValue, setSearchValue] = useState("")
 
   useEffect(() => {
     getnavtree()
@@ -22,11 +23,11 @@ const index = (props) => {
     }
   }, [])
 
-  const getnavtree = (page = 1, pageSize = 20) => {
+  const getnavtree = (name = "", page = 1, pageSize = 20) => {
     dispatch({
       type: "hospital/getstatustree",
       payload: {
-        keyword: "^pid=-1",
+        keyword: `${name}^pid=-1`,
         page: `${page}^${pageSize}`,
       }
     }).then(res => {
@@ -69,14 +70,29 @@ const index = (props) => {
   }
 
   const onPageChange = (page, PageSize) => {
-    getnavtree(page, PageSize)
+    getnavtree("", page, PageSize)
+  }
+
+  const searchInput = () => {
+    return <Input.Search style={{ marginBottom: "20px", width: "80%" }} value={searchValue} onChange={onSearchChange} onSearch={onSearch} allowClear />
+  }
+
+  const onSearchChange = (e) => {
+    setSearchValue(e.target.value)
+    if (!e.target.value) {
+      getnavtree()
+    }
+  }
+
+  const onSearch = () => {
+    getnavtree(searchValue)
   }
 
   return (
     <PageContainer>
       <div className="body">
         <Card className="card-tree" title="状态树">
-          <NavTree treeData={treeData} pagination={pagination} getloaddata={getloaddata} selectNode={selectNode} getNavList={getNavList}></NavTree>
+          <NavTree treeData={treeData} searchInput={searchInput} pagination={pagination} getloaddata={getloaddata} selectNode={selectNode} getNavList={getNavList}></NavTree>
         </Card>
         <Card className="card-table" title="状态详情">
           <SelectForm info={info} refresh={getnavtree} />
