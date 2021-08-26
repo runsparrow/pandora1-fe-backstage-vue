@@ -86,6 +86,7 @@ const index = (props) => {
       isShow ? <Modal
         title="新建字典"
         visible={true}
+        onCancel={() => close()}
         footer={<div style={{ textAlign: 'right' }}>
           <Button onClick={close} style={{ marginRight: "20px" }}>取消</Button>
           <Button type="primary" onClick={onFinish}>确定</Button>

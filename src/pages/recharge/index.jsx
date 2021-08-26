@@ -52,7 +52,7 @@ const index = (props) => {
       keyword += `^serialNo=${serialNo}`
 
     let params = {
-      keyWord: "",
+      keyWord: keyword,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: "",

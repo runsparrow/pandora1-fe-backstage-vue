@@ -41,7 +41,7 @@ const index = ({ List, getSelectItem, tabkey, childRef }) => {
 
   const clickCard = (item) => {
     item.check = !item.check
-    if (!item.check) {
+    if (item.check) {
       let res = [].concat(selectItem, item)
       setSelectItem(res)
       getSelectItem(res)

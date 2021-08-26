@@ -18,11 +18,11 @@ const index = (props) => {
   const [isShow, setIsShow] = useState(false)
   const [info, setInfo] = useState(null)
   const [column, setColumn] = useState([
-    {
-      title: "素材编号",
-      dataIndex: "goodsNo",
-      width: 200,
-    },
+    // {
+    //   title: "素材编号",
+    //   dataIndex: "goodsNo",
+    //   width: 200,
+    // },
     {
       title: "素材名称",
       dataIndex: "name",
@@ -137,6 +137,7 @@ const index = (props) => {
         isShow ? <Modal
           title="审核"
           visible={true}
+          keyboard={false}
           onCancel={() => closerefresh()}
           footer={<div>
             <Button style={{ marginRight: "10px" }} onClick={() => review(info, 0)}>审核不通过</Button>

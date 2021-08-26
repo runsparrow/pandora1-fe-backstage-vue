@@ -21,7 +21,6 @@ const index = (props) => {
     {
       title: "卡号",
       dataIndex: "cardNo",
-      search: false,
     },
     {
       title: "密码",
@@ -54,9 +53,9 @@ const index = (props) => {
   ])
 
   const getList = (page = { pageNum: 1, pageSize: 20 }) => {
-    const { isActivate } = page
+    const { isActivate, cardNo } = page
     let params = {
-      keyWord: isActivate ? `^isActivate=${isActivate}` : "",
+      keyWord: `${isActivate ? `^isActivate=${isActivate}` : ""}${cardNo ? `^cardNo=${cardNo}` : ""}`,
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: ""
