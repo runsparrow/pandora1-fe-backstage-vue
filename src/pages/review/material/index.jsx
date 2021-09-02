@@ -66,14 +66,14 @@ const index = (props) => {
   const review = (item, type) => {
     if (type == 1) {
       dispatch({
-        type: "material/review",
+        type: "material/reviewGoods",
         payload: { entity: { id: item.id }, statusKey: "cms.goods.pass" }
       }).then(res => {
         closerefresh()
       })
     } else {
       dispatch({
-        type: "material/review",
+        type: "material/reviewGoods",
         payload: { entity: { id: item.id }, statusKey: "cms.goods.refuse" }
       }).then(res => {
         closerefresh()
@@ -135,6 +135,7 @@ const index = (props) => {
         rowKey="id" />
       {
         isShow ? <Modal
+          width={"70%"}
           title="审核"
           visible={true}
           keyboard={false}

@@ -19,7 +19,7 @@ const index = (props) => {
   const [imgUrl, setImgUrl] = useState("")
   const [column, setColumn] = useState([
     {
-      title: "会员名称",
+      title: "设计师名称",
       dataIndex: "memberName",
       width: 200,
     },
@@ -42,7 +42,7 @@ const index = (props) => {
     },
     {
       title: "头像",
-      dataIndex: "idCardFUrl",
+      dataIndex: "jobUrl",
       width: 200,
       search: false,
       render: res => {
@@ -82,16 +82,16 @@ const index = (props) => {
       cancelText: "审核不通过",
       onOk () {
         dispatch({
-          type: "authority/reviewUser",
-          payload: { entity: { id: item.id }, statusKey: "avm.user.approver.pass" }
+          type: "authority/reviewAuthority",
+          payload: { entity: { id: item.id }, statusKey: "cms.authority.approver.pass" }
         }).then(res => {
           closerefresh()
         })
       },
       onCancel () {
         dispatch({
-          type: "authority/reviewUser",
-          payload: { entity: { id: item.id }, statusKey: "avm.user.approver.refuse" }
+          type: "authority/reviewAuthority",
+          payload: { entity: { id: item.id }, statusKey: "cms.authority.approver.refuse" }
         }).then(res => {
           closerefresh()
         })
@@ -113,10 +113,10 @@ const index = (props) => {
       page: `${page.pageNum}^${page.pageSize}`,
       date: "",
       sort: "",
-      status: [1]
+      status: [1, 2]
     }
     return dispatch({
-      type: "authority/getList",
+      type: "authority/getAuthorityList",
       payload: params
     }).then(res => {
       return res
@@ -134,6 +134,7 @@ const index = (props) => {
   }
 
   const getimg = (item) => {
+    console.log("imgurl", item)
     if (item) {
       setImgUrl(item)
       setIsShow(true)
@@ -161,8 +162,8 @@ const index = (props) => {
         isSearch
         rowKey="id" />
       {
-        isShow ? <Modal title="查看" visible={true} footer={null} onCancel={closerefresh}>
-          <img src={imgUrl} width="300px"></img>
+        isShow ? <Modal width={"600px"} title="查看" visible={true} footer={null} onCancel={closerefresh}>
+          <img src={imgUrl} width="500px"></img>
         </Modal> : null
       }
     </Card>

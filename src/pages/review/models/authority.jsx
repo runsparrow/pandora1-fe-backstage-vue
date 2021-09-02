@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { getList, add, review, getGoodsList } from '../services/authority';
+import { getList, add, reviewAuthority, reviewUser, reviewGoods, getGoodsList, getAuthorityList } from '../services/authority';
 
 
 export default {
@@ -31,9 +31,40 @@ export default {
         return {}
       }
     },
-    *review ({ payload }, { call, put }) {
-      const response = yield call(review, payload);
-      console.log("response", response)
+    *getAuthorityList ({ payload }, { call, put }) {
+      const response = yield call(getAuthorityList, payload);
+      if (response.result) {
+        return {
+          data: response.rows,
+          total: response.total,
+          success: true
+        }
+      } else {
+        return {}
+      }
+    },
+    *reviewAuthority ({ payload }, { call, put }) {
+      const response = yield call(reviewAuthority, payload);
+      if (response.result) {
+        message.success("审批成功")
+        return true
+      } else {
+        message.error("审批失败")
+        return false
+      }
+    },
+    *reviewUser ({ payload }, { call, put }) {
+      const response = yield call(reviewUser, payload);
+      if (response.result) {
+        message.success("审批成功")
+        return true
+      } else {
+        message.error("审批失败")
+        return false
+      }
+    },
+    *reviewGoods ({ payload }, { call, put }) {
+      const response = yield call(reviewGoods, payload);
       if (response.result) {
         message.success("审批成功")
         return true
