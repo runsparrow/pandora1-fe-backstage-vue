@@ -74,7 +74,7 @@ const index = (props) => {
     } else {
       dispatch({
         type: "material/review",
-        payload: { entity: { id: item.id }, statusKey: "cms.goods.close" }
+        payload: { entity: { id: item.id }, statusKey: "cms.goods.refuse" }
       }).then(res => {
         closerefresh()
       })
