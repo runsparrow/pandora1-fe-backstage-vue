@@ -66,14 +66,14 @@ const index = (props) => {
   const review = (item, type) => {
     if (type == 1) {
       dispatch({
-        type: "material/reviewGoods",
+        type: "authority/reviewGoods",
         payload: { entity: { id: item.id }, statusKey: "cms.goods.pass" }
       }).then(res => {
         closerefresh()
       })
     } else {
       dispatch({
-        type: "material/reviewGoods",
+        type: "authority/reviewGoods",
         payload: { entity: { id: item.id }, statusKey: "cms.goods.refuse" }
       }).then(res => {
         closerefresh()
