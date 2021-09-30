@@ -8,7 +8,7 @@ export default {
   effects: {
     *getstatustree ({ payload }, { call, put }) {
       const response = yield call(getstatustree, payload);
-      if (response.error == null) {
+      if (response.result) {
         return response
       } else {
         return []
@@ -16,7 +16,7 @@ export default {
     },
     *getGoodsTree ({ payload }, { call, put }) {
       const response = yield call(getGoodsTree, payload);
-      if (response.error == null) {
+      if (response.result) {
         return response.tree
       } else {
         return []
@@ -24,7 +24,7 @@ export default {
     },
     *editNode ({ payload }, { call, put }) {
       const response = yield call(editNode, payload);
-      if (response.error == null) {
+      if (response.result) {
         message.success("操作成功")
         return true
       } else {
@@ -34,7 +34,7 @@ export default {
     },
     *delNode ({ payload }, { call, put }) {
       const response = yield call(delNode, payload);
-      if (response.error == null) {
+      if (response.result) {
         message.success("操作成功")
         return true
       } else {
@@ -44,7 +44,7 @@ export default {
     },
     *addNode ({ payload }, { call, put }) {
       const response = yield call(addNode, payload);
-      if (response.error == null) {
+      if (response.result) {
         message.success("操作成功")
         return true
       } else {

@@ -8,7 +8,7 @@ export default {
   effects: {
     *getstatustree ({ payload }, { call, put }) {
       const response = yield call(getstatustree, payload);
-      if (response.error == null) {
+      if (response.result) {
         return response.tree
       } else {
         return []
@@ -16,7 +16,7 @@ export default {
     },
     *edit ({ payload }, { call, put }) {
       const response = yield call(edit, payload);
-      if (response.error == null) {
+      if (response.result) {
         message.success("操作成功")
         return true
       } else {

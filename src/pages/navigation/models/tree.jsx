@@ -8,7 +8,7 @@ export default {
   effects: {
     *getnavtree ({ payload }, { call, put }) {
       const response = yield call(getnavtree, payload);
-      if (response.error == null) {
+      if (response.result) {
         return response.tree
       } else {
         return []
@@ -16,7 +16,7 @@ export default {
     },
     *addNode ({ payload }, { call, put }) {
       const response = yield call(addNode, payload);
-      if (response.error == null) {
+      if (response.result) {
         return true
       } else {
         return false
@@ -24,7 +24,7 @@ export default {
     },
     *delNode ({ payload }, { call, put }) {
       const response = yield call(delNode, payload);
-      if (response.error == null) {
+      if (response.result) {
         return true
       } else {
         return false
@@ -32,7 +32,7 @@ export default {
     },
     *editNode ({ payload }, { call, put }) {
       const response = yield call(editNode, payload);
-      if (response.error == null) {
+      if (response.result) {
         return true
       } else {
         return false

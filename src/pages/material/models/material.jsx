@@ -8,7 +8,7 @@ export default {
   effects: {
     *getList ({ payload }, { call, put }) {
       const response = yield call(getList, payload);
-      if (response.error == null) {
+      if (response.result) {
         return response.rows.map(p => { return { ...p, tags: p.tags ? p.tags.replace(/(^,*)|(,*$)/g, "") : "" } })
       } else {
         return []
@@ -25,7 +25,7 @@ export default {
     },
     *batchDel ({ payload }, { call, put }) {
       const response = yield call(batchDel, payload);
-      if (response.error == null) {
+      if (response.result) {
         message.success("删除成功")
         return true
       } else {
