@@ -8,7 +8,7 @@ export default {
   effects: {
     *getstatustree ({ payload }, { call, put }) {
       const response = yield call(getstatustree, payload);
-      if (response.result) {
+      if (!response.error) {
         return response.tree
       } else {
         return []

@@ -8,7 +8,7 @@ export default {
   effects: {
     *getnavtree ({ payload }, { call, put }) {
       const response = yield call(getnavtree, payload);
-      if (response.result) {
+      if (!response.error) {
         return response.tree
       } else {
         return []
