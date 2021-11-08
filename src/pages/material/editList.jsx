@@ -131,7 +131,7 @@ const index = ({ List = [], onClose, dispatch }) => {
                   <Input />
                 </Form.Item>
                 <Form.Item label="素材标签" name={`tags_${index + 1}`} initialValue={p[`tags`] ? p[`tags`].split(',') : []}>
-                  <Select mode="tags" style={{ width: '100%' }} />
+                  <Select mode="tags" style={{ width: '100%' }} placeholder="如药品、器械、胃镜检查等" />
                 </Form.Item>
                 <Form.Item label="素材分类" name={`classify_${index + 1}`} initialValue={p[`classifyId`] || []}>
                   <TreeSelect

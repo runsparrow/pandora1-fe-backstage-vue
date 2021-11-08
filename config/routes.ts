@@ -49,77 +49,11 @@ export default [
             icon: 'smile',
             component: './Welcome',
           },
-          // {
-          //   name: 'goods',
-          //   icon: 'table',
-          //   path: '/goods',
-          //   component: './goods/index',
-          // },
-          // {
-          //   name: 'order',
-          //   icon: 'OrderedListOutlined',
-          //   path: '/order',
-          //   component: './order/index',
-          // },
-          {
-            name: 'recharge',
-            icon: 'OrderedListOutlined',
-            path: '/recharge',
-            component: './recharge/index',
-          },
-          // {
-          //   name: "article",
-          //   icon: 'MessageOutlined',
-          //   path: '/article',
-          //   routes: [
-          //     {
-          //       path: '/',
-          //       redirect: '/article/index',
-          //     },
-          //     {
-          //       name: 'my-article',
-          //       path: '/article/index',
-          //       component: './article/index',
-          //     },
-          //     {
-          //       name: 'new-article',
-          //       icon: 'table',
-          //       path: '/article/new',
-          //       hideInMenu: true,
-          //       component: './article/newArticle',
-          //     },
-          //     {
-          //       name: 'edit-article',
-          //       icon: 'table',
-          //       path: '/article/edit',
-          //       hideInMenu: true,
-          //       component: './article/newArticle',
-          //     }
-          //   ]
-          // },
-          {
-            name: 'dictionary',
-            icon: 'BookOutlined',
-            path: '/dictionary',
-            component: './dictionary/index',
-          },
-          {
-            name: 'hospital',
-            icon: 'BookOutlined',
-            path: '/hospital',
-            component: './hospital/index',
-          },
           {
             name: 'material',
             icon: 'DisconnectOutlined',
             path: '/material',
             component: './material/index',
-          },
-          {
-            name: 'navigation',
-            icon: 'MenuOutlined',
-            path: '/navigation',
-            component: './navigation/index',
           },
           {
             name: 'review',
@@ -128,10 +62,16 @@ export default [
             component: './review/index',
           },
           {
-            name: 'serial',
+            name: 'down',
             icon: 'table',
-            path: '/serial',
-            component: './serial/index',
+            path: '/down',
+            component: './down/index',
+          },
+          {
+            name: 'users',
+            icon: 'table',
+            path: '/users',
+            component: './users/index',
           },
           {
             name: 'member',
@@ -146,22 +86,16 @@ export default [
             component: './memberPower/index',
           },
           {
-            name: 'status',
-            icon: 'table',
-            path: '/status',
-            component: './status/index',
+            name: 'recharge',
+            icon: 'OrderedListOutlined',
+            path: '/recharge',
+            component: './recharge/index',
           },
           {
-            name: 'users',
+            name: 'serial',
             icon: 'table',
-            path: '/users',
-            component: './users/index',
-          },
-          {
-            name: 'goodsClassify',
-            icon: 'table',
-            path: '/goodsClassify',
-            component: './goodsClassify/index',
+            path: '/serial',
+            component: './serial/index',
           },
           {
             name: 'card',
@@ -170,10 +104,34 @@ export default [
             component: './card/index',
           },
           {
-            name: 'down',
+            name: 'hospital',
+            icon: 'BookOutlined',
+            path: '/hospital',
+            component: './hospital/index',
+          },
+          {
+            name: 'dictionary',
+            icon: 'BookOutlined',
+            path: '/dictionary',
+            component: './dictionary/index',
+          },
+          {
+            name: 'goodsClassify',
             icon: 'table',
-            path: '/down',
-            component: './down/index',
+            path: '/goodsClassify',
+            component: './goodsClassify/index',
+          },
+          {
+            name: 'navigation',
+            icon: 'MenuOutlined',
+            path: '/navigation',
+            component: './navigation/index',
+          },
+          {
+            name: 'status',
+            icon: 'table',
+            path: '/status',
+            component: './status/index',
           },
           {
             component: '404',
