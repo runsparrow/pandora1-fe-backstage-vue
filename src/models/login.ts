@@ -62,6 +62,17 @@ const Model: LoginModelType = {
           }
         }
         history.replace(redirect || '/');
+      } else {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: {
+            status: 'error',
+            type: 'account',
+            message: response ? response.message : '网络异常',
+            submitting: false,
+          },
+        });
+        return response;
       }
     },
 
